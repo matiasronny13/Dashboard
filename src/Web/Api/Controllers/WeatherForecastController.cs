@@ -1,6 +1,8 @@
+using Application.Rss;
+using Domain;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Dashboard.api.Controllers
+namespace Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -11,16 +13,23 @@ namespace Dashboard.api.Controllers
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
     };
 
-        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly Serilog.ILogger _logger;
+        private readonly IGroups _groups;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(Serilog.ILogger logger, IGroups groups)
         {
             _logger = logger;
+            _groups = groups;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
+            DomainClass df = new DomainClass();
+
+            _logger.Information("hallooooooo");
+            _groups.GetGroup(334);
+
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),

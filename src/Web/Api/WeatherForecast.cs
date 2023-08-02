@@ -1,4 +1,4 @@
-namespace Dashboard.api
+namespace Api
 {
     public class WeatherForecast
     {
