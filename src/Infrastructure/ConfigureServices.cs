@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Common.Interfaces;
 
 namespace Infrastructure
 {
@@ -16,12 +17,12 @@ namespace Infrastructure
         {
             var connectionString = configuration.GetConnectionString("PostgreSQL");
 
-            services.AddDbContext<DashboardDbContext>((sp, options) =>
+            services.AddDbContext<DashboardContext>((sp, options) =>
             {
                 options.UseNpgsql(connectionString);
             });
 
-            // services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddScoped<IDashboardContext>(provider => provider.GetService<DashboardContext>());
 
             return services;
         }

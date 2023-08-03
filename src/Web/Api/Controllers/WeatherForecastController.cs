@@ -1,5 +1,6 @@
 using Application.Rss;
 using Domain;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -25,10 +26,8 @@ namespace Api.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
-            DomainClass df = new DomainClass();
-
             _logger.Information("hallooooooo");
-            _groups.GetGroup(334);
+            ICollection<RssGroup> groups = _groups.GetGroups();
 
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {

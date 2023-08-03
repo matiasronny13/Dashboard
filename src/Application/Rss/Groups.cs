@@ -1,4 +1,6 @@
-﻿using Serilog;
+﻿using Application.Common.Interfaces;
+using Domain.Models;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +12,17 @@ namespace Application.Rss
     public class Groups : IGroups
     {
         private readonly ILogger _logger;
-        public Groups(ILogger logger) 
+        private readonly IDashboardContext _db;
+        public Groups(ILogger logger, IDashboardContext db) 
         {
             _logger = logger;
+            _db = db;
         }
-        public string GetGroup(int id)
+        public ICollection<RssGroup> GetGroups()
         {
             _logger.Information("This is get group");
-            throw new Exception("waaaaaaaaa");
+
+            return _db.RssGroups.ToList();
         }
     }
 }

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Application.Rss
 {
-    public interface IGroups
+    public interface IGroupsRepository
     {
-        public ICollection<RssGroup> GetGroups();
-        
+        public List<RssGroup> GetAllGroups();
+        public List<string> GetGroupById();
     }
 }
