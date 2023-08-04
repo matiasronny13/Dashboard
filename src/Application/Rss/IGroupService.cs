@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Application.Rss
 {
-    public interface IGroups
+    public interface IGroupService
     {
-        public ICollection<RssGroup> GetGroups();
-        
+        public Task<IEnumerable<RssGroup>> GetGroupsAsync();
     }
 }

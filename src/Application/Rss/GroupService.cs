@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -9,20 +10,16 @@ using System.Threading.Tasks;
 
 namespace Application.Rss
 {
-    public class Groups : IGroups
+    public class GroupService : IGroupService
     {
-        private readonly ILogger _logger;
         private readonly IDashboardContext _db;
-        public Groups(ILogger logger, IDashboardContext db) 
+        public GroupService(IDashboardContext db) 
         {
-            _logger = logger;
             _db = db;
         }
-        public ICollection<RssGroup> GetGroups()
+        public async Task<IEnumerable<RssGroup>> GetGroupsAsync()
         {
-            _logger.Information("This is get group");
-
-            return _db.RssGroups.ToList();
+            return await _db.RssGroups.Include(a => a.UserProfile).ToArrayAsync();
         }
     }
 }

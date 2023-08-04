@@ -9,33 +9,21 @@ namespace Api.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
-
         private readonly Serilog.ILogger _logger;
-        private readonly IGroups _groups;
+        private readonly IGroupService _groups;
 
-        public WeatherForecastController(Serilog.ILogger logger, IGroups groups)
+        public WeatherForecastController(Serilog.ILogger logger, IGroupService groups)
         {
             _logger = logger;
             _groups = groups;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<IEnumerable<RssGroup>> Get()
         {
             _logger.Information("hallooooooo");
-            ICollection<RssGroup> groups = _groups.GetGroups();
-
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            IEnumerable<RssGroup> groups = await _groups.GetGroupsAsync();
+            return groups;
         }
     }
 }
