@@ -33,6 +33,7 @@ void ConfigureFastEndpoints()
 
     WebApplication app = builder.Build();
 
+    app.UseMiddleware<ExceptionHandlerMiddleware>();
     app.UseFastEndpoints(options => {
             options.Serializer.Options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
             options.Serializer.Options.ReferenceHandler = ReferenceHandler.IgnoreCycles;
