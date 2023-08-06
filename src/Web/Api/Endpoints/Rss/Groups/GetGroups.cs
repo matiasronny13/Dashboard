@@ -1,6 +1,6 @@
-﻿using Domain.Models;
-using FastEndpoints;
+﻿using FastEndpoints;
 using Application.Rss;
+using Domain.Entities;
 
 namespace Api.Endpoints.Rss.Groups
 {

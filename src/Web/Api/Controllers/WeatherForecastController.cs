@@ -1,6 +1,6 @@
 using Application.Rss;
 using Domain;
-using Domain.Models;
+using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers

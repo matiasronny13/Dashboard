@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Domain.Models;
+﻿namespace Domain.Entities;
 
 public partial class RssItem
 {
