@@ -1,5 +1,5 @@
 import "./searchBar.scss";
-import {useRef, useState, MouseEvent, useEffect} from 'react'
+import {useRef, useState, KeyboardEvent, useEffect, MouseEvent } from 'react'
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { ListItemIcon, ListItemText } from "@mui/material";
@@ -14,33 +14,33 @@ type searchEngineType = {
 };
 
 const SearchBar = () => {
-  const [currentSearchEngine, setCurrentSearchEngine] = useState<searchEngineType>({});
+  const [currentSearchEngine, setCurrentSearchEngine] = useState<searchEngineType|null>(null);
   useEffect(() => {
     const current:searchEngineType = searchEngines.filter(item => item.isDefault == true)[0];
     setCurrentSearchEngine(current);
-    return () => {
-      
-    };
+    return () => {};
   }, []); 
 
-  const searchQuery = useRef(null);
+  const searchQuery = useRef<HTMLInputElement>(null);
   const onSearchClick = () => {
-    const queryString = searchQuery.current.value;
-    if (queryString !== "")
+    if (searchQuery.current)
     {
-      window.open(currentSearchEngine.url + queryString);
+      const queryString = searchQuery.current.value;
+      if (queryString !== "" && currentSearchEngine)
+      {
+        window.open(currentSearchEngine.url + queryString);
+      }
     }
   }
 
-  const onSearchKeyDown = (event) => {
+  const onSearchKeyDown = (event: KeyboardEvent) => {
     event.stopPropagation();
     if (event.key == "Enter") onSearchClick();
-    console.log(event.key);
   }
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (event: MouseEvent<HTMLImageElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -52,9 +52,9 @@ const SearchBar = () => {
   return (
     <div className="searchBar">
       <div className="engineSelector">
-        <img className="searchEngineIcon" src={currentSearchEngine.icon} alt="" onClick={handleClick}></img>
+        <img className="searchEngineIcon" src={currentSearchEngine?.icon} alt="" onClick={handleClick}></img>
       </div>
-      <input type="text" ref={searchQuery} onKeyDown={onSearchKeyDown}/>
+      <input title="search" type="text" ref={searchQuery} onKeyDown={onSearchKeyDown}/>    
       <img src="search.png" alt="" onClick={onSearchClick}></img>
 
       <Menu id="engine-menu" anchorEl={anchorEl} open={open} onClose={handleClose}>          
