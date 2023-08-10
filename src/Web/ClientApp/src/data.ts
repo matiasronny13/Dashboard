@@ -15,6 +15,12 @@ export const menu = [
         url: "/users/1",
         icon: "user.svg",
       },
+      {
+        id: 3,
+        title: "Startup",
+        url: "/startup",
+        icon: "home.svg",
+      }
     ],
   },
   {
@@ -32,87 +38,47 @@ export const menu = [
         title: "Products",
         url: "/products",
         icon: "product.svg",
-      },
-      {
-        id: 3,
-        title: "Orders",
-        url: "/orders",
-        icon: "order.svg",
-      },
-      {
-        id: 4,
-        title: "Posts",
-        url: "/posts",
-        icon: "post2.svg",
-      },
+      }
     ],
+  }
+];
+
+export const searchEngines = [
+  {
+    id: 1,
+    name: "Google",
+    icon: "google.ico",
+    url: "https://www.google.com/search?q=",
+    isDefault: true
+  },
+  {
+    id: 2,
+    name: "Searx",
+    icon: "searx.png",
+    url: "https://searx.be/?q=",
+    isDefault: false
   },
   {
     id: 3,
-    title: "general",
-    listItems: [
-      {
-        id: 1,
-        title: "Elements",
-        url: "/",
-        icon: "element.svg",
-      },
-      {
-        id: 2,
-        title: "Notes",
-        url: "/",
-        icon: "note.svg",
-      },
-      {
-        id: 3,
-        title: "Forms",
-        url: "/",
-        icon: "form.svg",
-      },
-      {
-        id: 4,
-        title: "Calendar",
-        url: "/",
-        icon: "calendar.svg",
-      },
-    ],
+    name: "Start Page",
+    icon: "startpage.ico",
+    url: "https://www.startpage.com/sp/search?abp=-1&t=&lui=english&sc=24rJ0nYi2LMD20&cat=web&query=",
+    isDefault: false
   },
   {
     id: 4,
-    title: "Maintenance",
-    listItems: [
-      {
-        id: 1,
-        title: "Settings",
-        url: "/",
-        icon: "setting.svg",
-      },
-      {
-        id: 2,
-        title: "Backups",
-        url: "/",
-        icon: "backup.svg",
-      },
-    ],
+    name: "DuckDuckGo",
+    icon: "duckduckgo.ico",
+    url: "https://duckduckgo.com/?ia=web&q=",
+    isDefault: false
   },
   {
     id: 5,
-    title: "analytics",
-    listItems: [
-      {
-        id: 1,
-        title: "Charts",
-        url: "/",
-        icon: "chart.svg",
-      },
-      {
-        id: 2,
-        title: "Logs",
-        url: "/",
-        icon: "log.svg",
-      },
-    ],
-  },
+    name: "Brave",
+    icon: "brave.png",
+    url: "https://search.brave.com/search?source=web&q=",
+    isDefault: false
+  }
 ];
 
 export const topDealUsers = [
