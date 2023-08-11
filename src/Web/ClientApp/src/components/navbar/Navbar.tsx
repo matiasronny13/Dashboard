@@ -1,3 +1,4 @@
+import SearchBar from "../searchBar/SearchBar";
 import "./navbar.scss";
 
 const Navbar = () => {
@@ -7,6 +8,7 @@ const Navbar = () => {
         <img src="logo.svg" alt="" />
         <span>lamadmin</span>
       </div>
+      <SearchBar></SearchBar>
       <div className="icons">
         <img src="/search.svg" alt="" className="icon" />
         <img src="/app.svg" alt="" className="icon" />
