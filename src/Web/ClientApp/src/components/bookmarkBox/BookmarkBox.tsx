@@ -1,22 +1,21 @@
 import "./bookmarkBox.scss"
-import {topDealUsers} from "../../data.ts"
+import {bookmarkData} from "../../data.ts"
 
 const BookmarkBox = () => {
   return (
     <div className="bookmarkBox">
-      <h1>Top Deals</h1>
-      <div className="list">
-        {topDealUsers.map(user=>(
-          <div className="listItem" key={user.id}>
-            <div className="user">
-              <img src={user.img} alt="" />
-              <div className="userTexts">
-                <span className="username">{user.username}</span>
-                <span className="email">{user.email}</span>
-              </div>
-            </div>
-            <span className="amount">${user.amount}</span>
-          </div>
+      <div className="menu">
+        <div>Group Title</div>
+        <div>
+          <span>X</span>
+        </div>
+      </div>
+      <div className="content">
+        {bookmarkData.map(item=>(
+          <a className="listItem" key={item.id} href={item.url} target="_blank">
+            <img loading="lazy" className="icon" src={item.icon} alt="" />
+            <span title={item.name} className="itemName">{item.name}</span>
+          </a>
         ))}
       </div>
     </div>

@@ -1,5 +1,5 @@
 import "./searchBar.scss";
-import {useRef, useState, KeyboardEvent, useEffect, MouseEvent } from 'react'
+import {useRef, useState, useEffect, MouseEventHandler, KeyboardEventHandler } from 'react'
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { ListItemIcon, ListItemText } from "@mui/material";
@@ -34,7 +34,7 @@ const SearchBar = () => {
       }
     }
   }
-  const onSearchKeyDown = (event: KeyboardEvent) => {
+  const onSearchKeyDown:KeyboardEventHandler<HTMLInputElement> = (event) => {
     event.stopPropagation();
     if (event.key == "Enter") onSearchClick();
   }
@@ -42,7 +42,7 @@ const SearchBar = () => {
   // handle search engines menu
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: MouseEvent<HTMLImageElement>) => {
+  const handleClick: MouseEventHandler<HTMLImageElement> = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = (item:searchEngineType|null) => {

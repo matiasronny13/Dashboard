@@ -4,9 +4,12 @@ import "./navbar.scss";
 const Navbar = () => {
   return (
     <div className="navbar">
-      <div className="logo">
-        <img src="logo.svg" alt="" />
-        <span>lamadmin</span>
+      <div className="hamburgerContainer">
+        <div className="hamburger-lines">
+          <span className="line line1"></span>
+          <span className="line line2"></span>
+          <span className="line line3"></span>
+        </div>  
       </div>
       <SearchBar></SearchBar>
       <div className="icons">
