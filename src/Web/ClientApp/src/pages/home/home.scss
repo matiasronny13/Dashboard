@@ -26,22 +26,4 @@
     border-radius: 10px;
     border: 2px solid $soft-bg;
   }
-
-  .box1 {
-    grid-column: span 1;
-    grid-row: span 3;
-  }
-
-  .box4 {
-    grid-column: span 1;
-    grid-row: span 3;
-  }
-  .box7 {
-    grid-column: span 2;
-    grid-row: span 2;
-
-    @include md {
-      display: none;
-    }
-  }
 }

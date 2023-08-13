@@ -1,21 +1,12 @@
-import Home from "./pages/home/Home";
+import { lazy, Suspense } from 'react';
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import Users from "./pages/users/Users";
-import Products from "./pages/products/Products";
 import Navbar from "./components/navbar/Navbar";
-import Footer from "./components/footer/Footer";
-import Menu from "./components/menu/Menu";
-import Login from "./pages/login/Login";
 import "./styles/global.scss";
-import User from "./pages/user/User";
-import Product from "./pages/product/Product";
-import {
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
-
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
+const Home = lazy(() => import("./pages/home/Home"));
+const Rss = lazy(() => import("./pages/rss/Rss"));
 
 function App() {
   const Layout = () => {
@@ -23,16 +14,10 @@ function App() {
       <div className="main">
         <Navbar />
         <div className="container">
-          <div className="menuContainer">
-            <Menu />
-          </div>
-          <div className="contentContainer">
-            <QueryClientProvider client={queryClient}>
-              <Outlet />
-            </QueryClientProvider>
-          </div>
+          <QueryClientProvider client={queryClient}>
+            <Outlet />
+          </QueryClientProvider>
         </div>
-        <Footer />
       </div>
     );
   };
@@ -44,30 +29,14 @@ function App() {
       children: [
         {
           path: "/",
-          element: <Home />,
+          element: (<Suspense fallback={<>Loading...</>}><Home /></Suspense>)
         },
         {
-          path: "/users",
-          element: <Users />,
-        },
-        {
-          path: "/products",
-          element: <Products />,
-        },
-        {
-          path: "/users/:id",
-          element: <User />,
-        },
-        {
-          path: "/products/:id",
-          element: <Product />,
+          path: "/rss",
+          element: (<Suspense fallback={<>Loading...</>}><Rss /></Suspense>)
         }
       ],
-    },
-    {
-      path: "/login",
-      element: <Login />,
-    },
+    }
   ]);
 
   return <RouterProvider router={router} />;

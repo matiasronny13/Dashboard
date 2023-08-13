@@ -56,7 +56,7 @@ const SearchBar = () => {
         <img className="searchEngineIcon" src={currentSearchEngine?.icon} alt="" onClick={handleClick}></img>
       </div>
       <input title="search" type="text" ref={searchQuery} onKeyDown={onSearchKeyDown}/>    
-      <img src="search.png" alt="" onClick={onSearchClick}></img>
+      <img src="/search/search.png" alt="" onClick={onSearchClick}></img>
 
       <Menu id="engine-menu" anchorEl={anchorEl} open={open} onClose={() => { handleClose(null); }}>          
       {
