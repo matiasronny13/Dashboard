@@ -116,7 +116,7 @@ export const bookmarkData = [
     id: 2,
     icon: "bookmark/telegram.png",
     name: "Web Telegram",
-    url: "https://web.telegram.com"
+    url: "https://web.telegram.org"
   },
   {
     id: 2,
