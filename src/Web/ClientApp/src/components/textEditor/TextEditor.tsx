@@ -3,6 +3,7 @@ import './textEditor.scss'
 import Box from '../../components/box/Box';
 
 export interface ITextEditorProps {
+    id: number;
     title: string;
     content: string;
 }

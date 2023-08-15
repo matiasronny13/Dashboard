@@ -20,10 +20,4 @@
   @include sm {
     grid-auto-rows: minmax(120px, auto);
   }
-
-  .box-1 {
-    padding: 10px;
-    border-radius: 10px;
-    border: 2px solid $soft-bg;
-  }
 }

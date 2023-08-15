@@ -5,17 +5,15 @@ import "./home.scss";
 
 const Home = () => {
 
-  const [state, setState] = useState({ notes: [
-    {title: "first note", content: "first content"},
-    {title: "second note", content: "second content"}
+  const [state] = useState({ notes: [
+    {id: 1, title: "first note", content: "first content"},
+    {id: 2, title: "second note", content: "second content"}
   ] })
 
   return (
     <div className="home">
-      <div className="box-1">
-        <BookmarkBox />
-      </div>
-      {state.notes.map((item) => <TextEditor {...item}/>)}      
+      <BookmarkBox />
+      {state.notes.map((item) => <TextEditor key={item.id} {...item}/>)}      
     </div>
   );
 };

@@ -1,12 +1,15 @@
-import { useState } from 'react';
+import { MouseEventHandler, useState } from 'react';
 import './box.scss'
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import { ListItemIcon, ListItemText } from "@mui/material";
 
 interface IBoxProps {
-    editComponent: React.ReactNode;
+    editComponent?: React.ReactNode;
     viewComponent: React.ReactNode;
     noteTitle: string|undefined;
-    onSaveCallback: () => void;
-    onCancelCallback: () => void;    
+    onSaveCallback?: () => void;
+    onCancelCallback?: () => void;    
 }
 
 const Box = ({noteTitle, editComponent, viewComponent, onSaveCallback, onCancelCallback}:IBoxProps) => {
@@ -18,13 +21,23 @@ const Box = ({noteTitle, editComponent, viewComponent, onSaveCallback, onCancelC
 
     const onSaveClick = () => {
         setboxState({'isEditable': false})
-        onSaveCallback();
+        onSaveCallback && onSaveCallback();
     }
 
     const onCancelClick = () => {
         setboxState({'isEditable': false})
-        onCancelCallback();
+        onCancelCallback && onCancelCallback();
     }
+
+    // handle search engines menu
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick: MouseEventHandler<HTMLImageElement> = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     return (
         <div className="box">
@@ -34,7 +47,18 @@ const Box = ({noteTitle, editComponent, viewComponent, onSaveCallback, onCancelC
                     {boxState.isEditable && <img alt="" src="/bx-check.svg" onClick={onSaveClick}></img>}
                     {boxState.isEditable && <img alt="" src="/bx-x.svg" onClick={onCancelClick}></img>}
                     {!boxState.isEditable && <img alt="" src="/bxs-edit.svg" onClick={onEditClick}></img>}
-                    <img alt="" src="/bx-cog.svg"></img>
+                    <img alt="" src="/bx-cog.svg" onClick={handleClick}></img>
+                    <Menu id="engine-menu" 
+                          anchorEl={anchorEl} open={open} onClose={() => { handleClose(); }}
+                          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                          transformOrigin={{ vertical: 'top', horizontal: 'right' }}>          
+                        <MenuItem onClick={() => { handleClose(); }}>
+                            <ListItemIcon>
+                                <img className="searchEngineIcon" src="/bx-cog.svg" alt="" />
+                            </ListItemIcon>
+                            <ListItemText>Delete</ListItemText>
+                        </MenuItem>
+                    </Menu>
                 </div>
             </div>
             <div className="content">
