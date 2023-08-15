@@ -1,13 +1,32 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import './textEditor.scss'
-import { TextareaAutosize } from '@mui/material';
+import Box from '../../components/box/Box';
 
-const TextEditor = () => {
-    const [editorState, setEditorState] = useState({ content: '', isReadOnly: false});
+export interface ITextEditorProps {
+    data: object
+}
+
+class ComponentState {
+    isReadonly?: boolean;
+    content?: object;
+
+    constructor(content:object)
+    {
+        this.content = content;
+        this.isReadonly = true;
+    }
+}
+
+const TextEditor = (props: ITextEditorProps) => {
+    const [editorState, setEditorState] = useState<ComponentState>(new ComponentState(props.data));
+
+    const onTextChange = (event:ChangeEvent<HTMLTextAreaElement>) => {        
+        setEditorState(x => ({...x, content: { value: event.target.value }}));
+    }
 
     return (
         <div className='textEditor'>
-            {editorState.isReadOnly ? <div>read only</div> : <TextareaAutosize/>}
+            <Box editComponent={<textarea title="note" value={editorState?.content?.value} onChange={onTextChange}></textarea>} viewComponent={<div>{editorState?.content?.value}</div>} />
         </div>
     );
 }

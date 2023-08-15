@@ -1,5 +1,4 @@
 import BookmarkBox from "../../components/bookmarkBox/BookmarkBox";
-import Box from '../../components/box/Box';
 import TextEditor from "../../components/textEditor/TextEditor";
 import "./home.scss";
 
@@ -9,7 +8,7 @@ const Home = () => {
       <div className="box-1">
         <BookmarkBox />
       </div>
-      <Box childComponent={<TextEditor/>}/>
+      <TextEditor data={{ value: 'wawax' }}/>
     </div>
   );
 };
