@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import './box.scss'
 
-interface Props {
-    editComponent?: React.ReactNode;
-    viewComponent?: React.ReactNode;
+interface IBoxProps {
+    editComponent: React.ReactNode;
+    viewComponent: React.ReactNode;
+    noteTitle: string|undefined;
+    onSaveCallback: () => void;
+    onCancelCallback: () => void;    
 }
 
-const Box = (props: Props) => {
+const Box = ({noteTitle, editComponent, viewComponent, onSaveCallback, onCancelCallback}:IBoxProps) => {
     const [boxState, setboxState] = useState({ isEditable: false });
 
     const onEditClick = () => {
@@ -15,16 +18,18 @@ const Box = (props: Props) => {
 
     const onSaveClick = () => {
         setboxState({'isEditable': false})
+        onSaveCallback();
     }
 
     const onCancelClick = () => {
         setboxState({'isEditable': false})
+        onCancelCallback();
     }
 
     return (
         <div className="box">
             <div className="boxHeader">
-                <div className='title'>Group Title</div>
+                <div className='title'>{noteTitle}</div>
                 <div className='commands'>
                     {boxState.isEditable && <img alt="" src="/bx-check.svg" onClick={onSaveClick}></img>}
                     {boxState.isEditable && <img alt="" src="/bx-x.svg" onClick={onCancelClick}></img>}
@@ -33,7 +38,7 @@ const Box = (props: Props) => {
                 </div>
             </div>
             <div className="content">
-                {boxState.isEditable ? props.editComponent : props.viewComponent}
+                {boxState.isEditable ? editComponent : viewComponent}
             </div>
         </div>
     );

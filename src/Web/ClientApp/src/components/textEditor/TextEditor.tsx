@@ -3,30 +3,44 @@ import './textEditor.scss'
 import Box from '../../components/box/Box';
 
 export interface ITextEditorProps {
-    data: object
+    title: string;
+    content: string;
 }
 
 class ComponentState {
     isReadonly?: boolean;
-    content?: object;
+    title?: string;
+    content?: string;
 
-    constructor(content:object)
+    constructor(title:string, content:string)
     {
+        this.title = title;
         this.content = content;
         this.isReadonly = true;
     }
 }
 
 const TextEditor = (props: ITextEditorProps) => {
-    const [editorState, setEditorState] = useState<ComponentState>(new ComponentState(props.data));
+    const [editorState, setEditorState] = useState<ComponentState>(new ComponentState(props.title, props.content));
 
     const onTextChange = (event:ChangeEvent<HTMLTextAreaElement>) => {        
-        setEditorState(x => ({...x, content: { value: event.target.value }}));
+        setEditorState(x => ({...x, content: event.target.value }));
+    }
+
+    const saveHandler =()=> {
+        localStorage.setItem(editorState.title ?? "", editorState.content ?? "");
+    }
+
+    const cancelHandler =()=> {
+        setEditorState(x => ({...x, content: props.content }));
     }
 
     return (
         <div className='textEditor'>
-            <Box editComponent={<textarea title="note" value={editorState?.content?.value} onChange={onTextChange}></textarea>} viewComponent={<div>{editorState?.content?.value}</div>} />
+            <Box noteTitle={editorState.title}
+                 editComponent={<textarea title="note" value={editorState?.content} onChange={onTextChange}></textarea>} 
+                 viewComponent={<div>{editorState.content}</div>} 
+                 onSaveCallback={saveHandler} onCancelCallback={cancelHandler}/>
         </div>
     );
 }
