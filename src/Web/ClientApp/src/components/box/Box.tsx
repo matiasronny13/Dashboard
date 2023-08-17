@@ -1,32 +1,35 @@
-import { MouseEventHandler, useState } from 'react';
+import { MouseEventHandler, MutableRefObject, ReactElement, cloneElement, useRef, useState } from 'react';
 import './box.scss'
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { ListItemIcon, ListItemText } from "@mui/material";
 
-interface IBoxProps {
-    editComponent?: React.ReactNode;
-    viewComponent: React.ReactNode;
-    noteTitle: string|undefined;
-    onSaveCallback?: () => void;
-    onCancelCallback?: () => void;    
+interface IBoxChildren {
+    saveChange: () => object;
+    cancelChange: () => object;
 }
 
-const Box = ({noteTitle, editComponent, viewComponent, onSaveCallback, onCancelCallback}:IBoxProps) => {
+interface IBoxProps {
+    boxTitle: string;
+    children: ReactElement<{ isEditable: boolean; ref: MutableRefObject<IBoxChildren | undefined>; }>;
+}
+
+const Box = ({boxTitle, children}:IBoxProps) => {
     const [boxState, setboxState] = useState({ isEditable: false });
+    const childrenRef = useRef<IBoxChildren>();
 
     const onEditClick = () => {
         setboxState({'isEditable': true})
     }
 
     const onSaveClick = () => {
-        setboxState({'isEditable': false})
-        onSaveCallback && onSaveCallback();
+        setboxState({'isEditable': false});
+        (childrenRef.current) && childrenRef.current.saveChange();
     }
 
     const onCancelClick = () => {
-        setboxState({'isEditable': false})
-        onCancelCallback && onCancelCallback();
+        setboxState({'isEditable': false});
+        (childrenRef?.current) && childrenRef.current.cancelChange();        
     }
 
     // handle search engines menu
@@ -42,7 +45,7 @@ const Box = ({noteTitle, editComponent, viewComponent, onSaveCallback, onCancelC
     return (
         <div className="box">
             <div className="boxHeader">
-                <div className='title'>{noteTitle}</div>
+                <div className='title'>{boxTitle}</div>
                 <div className='commands'>
                     {boxState.isEditable && <img alt="" src="/bx-check.svg" onClick={onSaveClick}></img>}
                     {boxState.isEditable && <img alt="" src="/bx-x.svg" onClick={onCancelClick}></img>}
@@ -61,9 +64,9 @@ const Box = ({noteTitle, editComponent, viewComponent, onSaveCallback, onCancelC
                     </Menu>
                 </div>
             </div>
-            <div className="content">
-                {boxState.isEditable ? editComponent : viewComponent}
-            </div>
+            <>
+                {cloneElement(children, {isEditable: boxState.isEditable, ref:childrenRef})}
+            </>
         </div>
     );
 }

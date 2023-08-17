@@ -2,6 +2,7 @@ import { useState } from "react";
 import BookmarkBox from "../../components/bookmarkBox/BookmarkBox";
 import TextEditor from "../../components/textEditor/TextEditor";
 import "./home.scss";
+import Box from "../../components/box/Box";
 
 const Home = () => {
 
@@ -12,8 +13,14 @@ const Home = () => {
 
   return (
     <div className="home">
-      <BookmarkBox />
-      {state.notes.map((item) => <TextEditor key={item.id} {...item}/>)}      
+      <Box boxTitle="Bookmark">
+        <BookmarkBox />
+      </Box>
+      {state.notes.map((item) => 
+        <Box key={item.id} boxTitle={item.title}>
+          <TextEditor content={item.content} id={item.id}/>
+        </Box>
+      )}
     </div>
   );
 };
