@@ -3,40 +3,48 @@ import './textEditor.scss'
 import { marked } from 'marked';
 
 interface ITextEditorProps{
-    content: string;
-    id: number;
+    storageKey: string;
     isEditable?: boolean;
 }
 
-const TextEditor = forwardRef(({content, id, isEditable}:ITextEditorProps, ref) => {
+const TextEditor = forwardRef(({storageKey, isEditable}:ITextEditorProps, ref) => {
     useImperativeHandle(ref, () => {
         return {
             cancelChange: () => {
-                setEditorContent(content);
+                getData();
             },
             saveChange: () => {
-                localStorage.setItem(id.toString(), editorContent ?? "");
+                localStorage.setItem(storageKey, JSON.stringify(editorState));
             }
         };
     });
     
-    const [editorContent, setEditorContent] = useState(content);
+    const [editorState, setEditorState] = useState({content: ""});
     const viewRef = useRef<HTMLDivElement>(null);
     const onTextChange = (event:ChangeEvent<HTMLTextAreaElement>) => {        
-        setEditorContent(event.target.value);
+        setEditorState({...editorState, content: event.target.value});
     }
+
+    const getData =()=>{
+        const data = localStorage.getItem(storageKey);
+        setEditorState(data ? JSON.parse(data) : {content: ""});
+    }
+
+    useEffect(() => {
+        getData();
+    }, []);
 
     useEffect(() => {
         if(!isEditable && viewRef.current)
         {
-            viewRef.current.innerHTML = marked.parse(editorContent);
+            viewRef.current.innerHTML = marked.parse(editorState.content);
         }
-    },[isEditable, editorContent]);
+    },[isEditable, editorState.content]);
 
     
     return (
         <div className='textEditor'>
-            {isEditable && <div className='editorDiv'><textarea title="note" value={editorContent} onChange={onTextChange}></textarea></div>} 
+            {isEditable && <div className='editorDiv'><textarea title="note" value={editorState.content} onChange={onTextChange}></textarea></div>} 
             {!isEditable &&<div className='viewerDiv' ref={viewRef}></div>} 
         </div>
     );
