@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <div className="home">
       <Box boxTitle="Bookmark">
-        <BookmarkBox />
+        <BookmarkBox storageKey="bookmark"/>
       </Box>
       <Box boxTitle="Notes">
         <TextEditor storageKey="note1"/>
