@@ -1,5 +1,6 @@
 import { ChangeEvent, forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import './textEditor.scss'
+import { marked } from 'marked';
 
 interface ITextEditorProps{
     content: string;
@@ -28,15 +29,15 @@ const TextEditor = forwardRef(({content, id, isEditable}:ITextEditorProps, ref) 
     useEffect(() => {
         if(!isEditable && viewRef.current)
         {
-            viewRef.current.innerHTML = "<b style='color:red'>" + editorContent + "</b>"
+            viewRef.current.innerHTML = marked.parse(editorContent);
         }
     },[isEditable, editorContent]);
 
     
     return (
         <div className='textEditor'>
-            {isEditable && <textarea title="note" value={editorContent} onChange={onTextChange}></textarea>} 
-            {!isEditable &&<div ref={viewRef}></div>} 
+            {isEditable && <div className='editorDiv'><textarea title="note" value={editorContent} onChange={onTextChange}></textarea></div>} 
+            {!isEditable &&<div className='viewerDiv' ref={viewRef}></div>} 
         </div>
     );
 });

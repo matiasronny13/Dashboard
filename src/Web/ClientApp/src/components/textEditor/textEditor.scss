@@ -1,0 +1,40 @@
+@import '../../styles/variables.scss';
+
+.textEditor {
+    .editorDiv {
+        display: flex;
+        flex-direction: column;
+        textarea { 
+            width: 100%;
+            padding: 5px;
+            height: 430px;
+            border: none;
+            outline: none;
+            background-color: transparent;
+            color: $soft-color
+        }
+    }
+    
+    .viewerDiv{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+
+
+        table {
+            border: 1px solid $soft-bg;
+            border-collapse: collapse;
+
+            th, td {
+                border: 1px solid $soft-bg;
+                padding: 5px 10px;
+                color: $soft-color
+            }
+        }
+
+        ul {
+            padding: 0px 20px;
+        }
+    }
+}

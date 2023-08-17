@@ -7,7 +7,7 @@ import Box from "../../components/box/Box";
 const Home = () => {
 
   const [state] = useState({ notes: [
-    {id: 1, title: "first note", content: "first content"},
+    {id: 1, title: "first note", content: "# HEADING\na|b\n--|--\nd|d\n* first content\n* dfff"},
     {id: 2, title: "second note", content: "second content"}
   ] })
 
