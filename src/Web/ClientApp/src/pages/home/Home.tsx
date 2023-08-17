@@ -10,8 +10,8 @@ const Home = () => {
         <BookmarkBox />
       </Box>
       <Box boxTitle="Notes">
-          <TextEditor storageKey="note1"/>
-        </Box>
+        <TextEditor storageKey="note1"/>
+      </Box>
     </div>
   );
 };
