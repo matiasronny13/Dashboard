@@ -61,7 +61,7 @@ const SearchBar = () => {
       <Menu id="engine-menu" anchorEl={anchorEl} open={open} onClose={() => { handleClose(null); }}>          
       {
         searchEngines.map(item => (
-          <MenuItem key={item.id} onClick={() => { handleClose(item); }}>
+          <MenuItem key={item.id} onClick={() => { handleClose(item); }} selected={(currentSearchEngine ? currentSearchEngine.id == item.id : false)}>
             <ListItemIcon>
               <img className="searchEngineIcon" src={item.icon} alt="" />
             </ListItemIcon>
