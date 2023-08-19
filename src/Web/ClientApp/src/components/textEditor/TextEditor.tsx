@@ -1,13 +1,14 @@
 import { ChangeEvent, forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import './textEditor.scss'
 import { marked } from 'marked';
+import CardCommand from '../cardCommand/CardCommand';
 
-interface ITextEditorProps{
+type TProps = {
     storageKey: string;
     isEditable?: boolean;
 }
 
-const TextEditor = forwardRef(({storageKey, isEditable}:ITextEditorProps, ref) => {
+const TextEditor = forwardRef(({storageKey, isEditable}:TProps, ref) => {
     useImperativeHandle(ref, () => {
         return {
             cancelChange: () => {
@@ -44,8 +45,11 @@ const TextEditor = forwardRef(({storageKey, isEditable}:ITextEditorProps, ref) =
     
     return (
         <div className='textEditor'>
-            {isEditable && <div className='editorDiv'><textarea title="note" value={editorState.content} onChange={onTextChange}></textarea></div>} 
-            {!isEditable &&<div className='viewerDiv' ref={viewRef}></div>} 
+            <CardCommand boxTitle="Notes" />
+            <div className="content">
+                {isEditable && <div className='editorDiv'><textarea title="note" value={editorState.content} onChange={onTextChange}></textarea></div>} 
+                {!isEditable &&<div className='viewerDiv' ref={viewRef}></div>} 
+            </div>
         </div>
     );
 });

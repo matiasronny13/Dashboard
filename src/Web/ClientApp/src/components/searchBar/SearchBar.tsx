@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { ListItemIcon, ListItemText } from "@mui/material";
 import { searchEngines } from '../../data'
 
-type searchEngineType = {
+type TSearchEngineType = {
   id: number,
   name: string,
   icon: string,
@@ -15,9 +15,9 @@ type searchEngineType = {
 
 const SearchBar = () => {
   // handle states
-  const [currentSearchEngine, setCurrentSearchEngine] = useState<searchEngineType|null>(null);
+  const [currentSearchEngine, setCurrentSearchEngine] = useState<TSearchEngineType|null>(null);
   useEffect(() => {
-    const current:searchEngineType = searchEngines.filter(item => item.isDefault == true)[0];
+    const current:TSearchEngineType = searchEngines.filter(item => item.isDefault == true)[0];
     setCurrentSearchEngine(current);
     return () => {};
   }, []); 
@@ -45,7 +45,7 @@ const SearchBar = () => {
   const handleClick: MouseEventHandler<HTMLImageElement> = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = (item:searchEngineType|null) => {
+  const handleClose = (item:TSearchEngineType|null) => {
     if(item != null) setCurrentSearchEngine(item);
     setAnchorEl(null);
   };

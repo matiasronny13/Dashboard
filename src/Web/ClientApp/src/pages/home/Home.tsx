@@ -1,17 +1,16 @@
-import BookmarkBox from "../../components/bookmarkBox/BookmarkBox";
+import Bookmark from "../../components/bookmark/Bookmark";
 import TextEditor from "../../components/textEditor/TextEditor";
 import "./home.scss";
-import Box from "../../components/box/Box";
 
 const Home = () => {
   return (
     <div className="home">
-      <Box boxTitle="Bookmark">
-        <BookmarkBox storageKey="bookmark"/>
-      </Box>
-      <Box boxTitle="Notes">
+      <div className="card">
+        <Bookmark storageKey="bookmark"/>
+      </div>
+      <div className="card">
         <TextEditor storageKey="note1"/>
-      </Box>
+      </div>
     </div>
   );
 };
