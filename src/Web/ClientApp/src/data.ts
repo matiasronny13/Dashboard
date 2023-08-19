@@ -38,7 +38,7 @@ export const searchEngines = [
     id: 3,
     name: "Start Page",
     icon: "/search/startpage.ico",
-    url: "https://www.startpage.com/sp/search?abp=-1&t=&lui=english&sc=24rJ0nYi2LMD20&cat=web&query=",
+    url: "https://www.startpage.com/do/dsearch?query=",
     isDefault: false
   },
   {
