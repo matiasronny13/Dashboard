@@ -30,12 +30,12 @@ const Bookmark = ({storageKey, isEditable}:TProps) => {
     <div className="bookmark">
       <CardCommand cardTitle="Bookmark" />
       <div className="content">
-        {!isEditable && bookmarkState.map(item=>(
+        {!isEditable && bookmarkState.map(item=>(item.url) ? (
           <a className="listItem" key={item.id} href={item.url} target="_blank">
             <img className="icon" src={item.icon} alt="" />
             <span title={item.name} className="itemName">{item.name}</span>
           </a>
-        ))}
+        ) : <div className="emptyItem"></div>)}
       </div>
     </div>
   )

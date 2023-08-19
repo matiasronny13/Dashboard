@@ -1,6 +1,8 @@
 @import "../../styles/variables.scss";
 @import "../../styles/responsive.scss";
 
+$icon-width: 70px;
+
 .bookmark {
 
   display: flex;    
@@ -12,7 +14,12 @@
     flex-wrap: wrap;
     gap: 5px;
 
+    .emptyItem {
+      width: $icon-width;
+    }  
+
     .listItem {
+      width: $icon-width;
       gap: 10px;
       padding: 5px;
       display: flex;
