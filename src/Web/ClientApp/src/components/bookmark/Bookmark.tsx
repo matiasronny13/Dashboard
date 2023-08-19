@@ -28,7 +28,7 @@ const Bookmark = ({storageKey, isEditable}:TProps) => {
   
   return (
     <div className="bookmark">
-      <CardCommand boxTitle="Bookmark" />
+      <CardCommand cardTitle="Bookmark" />
       <div className="content">
         {!isEditable && bookmarkState.map(item=>(
           <a className="listItem" key={item.id} href={item.url} target="_blank">

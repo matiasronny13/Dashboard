@@ -5,24 +5,15 @@ import MenuItem from '@mui/material/MenuItem';
 import { ListItemIcon, ListItemText } from "@mui/material";
 
 type TProps = {
-    boxTitle: string;
+    cardTitle: string;
+    isEdit: boolean;
+    onSaveHandler: () => void;
+    onCancelHandler: () => void;
+    onEditHandler: () => void;
 }
 
-const CardCommand = ({boxTitle}:TProps) => {
-    const [boxState, setboxState] = useState({ isEditable: false });
-
-    const onEditClick = () => {
-        setboxState({'isEditable': true})
-    }
-
-    const onSaveClick = () => {
-        setboxState({'isEditable': false});
-    }
-
-    const onCancelClick = () => {
-        setboxState({'isEditable': false});
-    }
-
+const CardCommand = ({cardTitle, isEdit, onSaveHandler, onCancelHandler, onEditHandler}:TProps) => {
+    
     // handle search engines menu
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -35,11 +26,11 @@ const CardCommand = ({boxTitle}:TProps) => {
 
     return (
         <div className="cardCommand">
-            <div className='title'>{boxTitle}</div>
+            <div className='title'>{cardTitle}</div>
             <div className='commands'>
-                {boxState.isEditable && <img alt="" src="/bx-check.svg" onClick={onSaveClick}></img>}
-                {boxState.isEditable && <img alt="" src="/bx-x.svg" onClick={onCancelClick}></img>}
-                {!boxState.isEditable && <img alt="" src="/bxs-edit.svg" onClick={onEditClick}></img>}
+                {isEdit && <img alt="" src="/bx-check.svg" onClick={onSaveHandler}></img>}
+                {isEdit && <img alt="" src="/bx-x.svg" onClick={onCancelHandler}></img>}
+                {!isEdit && <img alt="" src="/bxs-edit.svg" onClick={onEditHandler}></img>}
                 <img alt="" src="/bx-cog.svg" onClick={handleClick}></img>
                 <Menu id="engine-menu" 
                         anchorEl={anchorEl} open={open} onClose={() => { handleClose(); }}
