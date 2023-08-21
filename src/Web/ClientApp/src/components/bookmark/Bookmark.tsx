@@ -1,43 +1,51 @@
 import CardCommand from "../cardCommand/CardCommand";
 import "./bookmark.scss"
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
+import useBookmark from "./BookmarkContext";
 
 type TProps = {
   storageKey: string;
-  isEditable?: boolean;
 }
 
-type TBookmark = {
-  id: number;
-  icon: string;
-  name: string;
-  url: string;
-}
-
-const Bookmark = ({storageKey, isEditable}:TProps) => {
-  const [bookmarkState, setBookmarkState] = useState<TBookmark[]>([]);
-
-  const getData =()=>{
-      const data = localStorage.getItem(storageKey);
-      setBookmarkState(data ? JSON.parse(data) : []);
-  }
+const Bookmark = ({storageKey}:TProps) => {  
+  const {items, isEdit, populateItems, setEditMode } = useBookmark();
 
   useEffect(() => {
-      getData();
-  }, []);
-  
+    resetState();
+  }, []);  
+
+  const resetState = () => {
+    const data = localStorage.getItem(storageKey);
+    if (data)
+    {
+      populateItems(JSON.parse(data));
+    }
+  };
+
+  const onSaveHandler = () => { 
+    localStorage.setItem(storageKey, JSON.stringify(items));
+    setEditMode(false) 
+  };
+
+  const onCancelHandler = () => { 
+    resetState();
+    setEditMode(false) 
+  };
+
+  const onEditHandler = () => { setEditMode(true) };
+
   return (
-    <div className="bookmark">
-      <CardCommand cardTitle="Bookmark" />
-      <div className="content">
-        {!isEditable && bookmarkState.map(item=>(item.url) ? (
-          <a className="listItem" key={item.id} href={item.url} target="_blank">
-            <img className="icon" src={item.icon} alt="" />
-            <span title={item.name} className="itemName">{item.name}</span>
-          </a>
-        ) : <div className="emptyItem"></div>)}
+      <div className="bookmark">
+        <CardCommand cardTitle="Bookmark" isEdit={isEdit} onEditHandler={onEditHandler} onCancelHandler={onCancelHandler} onSaveHandler={onSaveHandler} />
+        <div className="content">
+          {!isEdit && items.map(item=>(item.url) ? (
+            <a className="listItem" key={item.id} href={item.url} target="_blank">
+              <img className="icon" src={item.icon} alt="" />
+              <span title={item.name} className="itemName">{item.name}</span>
+            </a>
+          ) : <div className="emptyItem"></div>)}
+        </div>
       </div>
-    </div>
   )
 };
 
