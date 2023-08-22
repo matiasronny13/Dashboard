@@ -1,0 +1,21 @@
+.bookmarkEditor {
+   
+    .overlay {    
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: rgba(21, 20, 31, 0.724);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .dialog {
+        position: absolute; 
+        left: 450px;
+        top: 100px;
+        width: 1000px;
+    }
+}
