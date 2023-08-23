@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer } from 'react'
-import bookmarkReducer, {initialState, REDUCER_ACTION_TYPE, TBookmarkItem} from "./bookmarkReducer";
+import bookmarkReducer, {initialState, REDUCER_ACTION_TYPE, TBookmarkItem, TBookmarkState} from "./bookmarkReducer";
 
 const BookmarkContext = createContext(initialState);
 
@@ -10,7 +10,9 @@ export const BookmarkProvider = ({ children }: { children: React.ReactNode }) =>
         dispatch({type:REDUCER_ACTION_TYPE.ADD_ITEM, payload:newItem});
     };
 
-    const populateItems = (items:TBookmarkItem[]) => {
+    const initializeState = (state:TBookmarkState) => dispatch({type: REDUCER_ACTION_TYPE.INITIALIZE, payload: state });
+
+    const setItems = (items:TBookmarkItem[]) => {
         dispatch({type: REDUCER_ACTION_TYPE.POPULATE_ITEMS, payload: items });
     };
 
@@ -24,10 +26,12 @@ export const BookmarkProvider = ({ children }: { children: React.ReactNode }) =>
         items: state.items,
         isEdit: state.isEdit,
         firstCall: state.firstCall,
+        storageKey: state.storageKey,
+        initializeState: initializeState,
         addItem: addItem,
         updateItem: updateItem,
         deleteItem: deleteItem,
-        populateItems: populateItems,
+        setItems: setItems,
         setEditMode: setEditMode
     };
 

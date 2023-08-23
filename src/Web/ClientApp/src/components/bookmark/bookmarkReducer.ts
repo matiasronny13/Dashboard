@@ -5,18 +5,21 @@ export type TBookmarkItem = {
     url: string;
 };
 
-type TBookmarkState = {
+export type TBookmarkState = {
     items: TBookmarkItem[];
     isEdit: boolean;
     firstCall: boolean;    
+    storageKey: string;
+    initializeState: (state:TBookmarkState) => void;
     addItem: (newItem:TBookmarkItem) => void;
     updateItem: (item:TBookmarkItem) => void;
     deleteItem: (item:TBookmarkItem) => void;
-    populateItems: (items:TBookmarkItem[]) => void;
+    setItems: (items:TBookmarkItem[]) => void;
     setEditMode: (mode: boolean) => void;
 }
 
 export enum REDUCER_ACTION_TYPE {
+    INITIALIZE,
     POPULATE_ITEMS,
     ADD_ITEM,
     UPDATE_ITEM,
@@ -28,14 +31,17 @@ export const initialState:TBookmarkState = {
     items: [], 
     isEdit: false, 
     firstCall: false,
+    storageKey: "",
+    initializeState: (state:TBookmarkState) => {},
     addItem: (newItem:TBookmarkItem) => {},
     updateItem: (item:TBookmarkItem) => {},
     deleteItem: (item:TBookmarkItem) => {},
-    populateItems: (items:TBookmarkItem[]) => {},
+    setItems: (items:TBookmarkItem[]) => {},
     setEditMode: (mode: boolean) => {}
 };
 
-type TAction =  { payload: TBookmarkItem[]; type: REDUCER_ACTION_TYPE.POPULATE_ITEMS; } |
+type TAction =  { payload: TBookmarkState; type: REDUCER_ACTION_TYPE.INITIALIZE; } |
+                { payload: TBookmarkItem[]; type: REDUCER_ACTION_TYPE.POPULATE_ITEMS; } |
                 { 
                     payload: TBookmarkItem; 
                     type: 
@@ -51,6 +57,8 @@ const bookmarkReducer = (state: TBookmarkState, action: TAction): TBookmarkState
     console.log({ type:REDUCER_ACTION_TYPE[type], payload: payload });
   
     switch (type) {
+        case REDUCER_ACTION_TYPE.INITIALIZE:
+            return payload;
         case REDUCER_ACTION_TYPE.POPULATE_ITEMS:
             return {
                 ...state, 

@@ -4,14 +4,10 @@
     background: white;
     padding: 20px;
 
-    .MuiDataGrid-toolbarContainer{
-      flex-direction: row-reverse;
-    }
-
     img{
       width: 32px;
       height: 32px;
-      border-radius: 50%;
+      border-radius: 8px;
       object-fit: cover;
     }
 

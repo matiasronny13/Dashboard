@@ -7,9 +7,9 @@ import { ListItemIcon, ListItemText } from "@mui/material";
 type TProps = {
     cardTitle: string;
     isEdit: boolean;
-    onSaveHandler: () => void;
-    onCancelHandler: () => void;
-    onEditHandler: () => void;
+    onSaveHandler?: () => void;
+    onCancelHandler?: () => void;
+    onEditHandler?: () => void;
 }
 
 const CardCommand = ({cardTitle, isEdit, onSaveHandler, onCancelHandler, onEditHandler}:TProps) => {

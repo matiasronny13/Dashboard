@@ -1,50 +1,58 @@
 import {
   DataGrid,
   GridColDef,
-  GridToolbar,
+  GridRowModes,
+  GridRowModesModel
 } from "@mui/x-data-grid";
 import "./dataTable.scss";
-import { Link } from "react-router-dom";
-// import { useMutation, useQueryClient } from "@tanstack/react-query";
+import CustomGridToolbar from "./CustomGridToolbar";
+import { useEffect, useState } from "react";
+import { TBookmarkItem } from "../bookmark/bookmarkReducer";
 
-type Props = {
+type TProps = {
   columns: GridColDef[];
-  rows: object[];
-  slug: string;
+  rows: TBookmarkItem[];
+  onCloseClickHandler: () => void;
+  onSaveHandler: (items:TBookmarkItem[]) => void;
 };
 
-const DataTable = (props: Props) => {
+const DataTable = (props: TProps) => {
+  const [localRows, setlocalRows] = useState<TBookmarkItem[]>([]);
+  const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
 
-  // TEST THE API
+  useEffect(() => {
+    setlocalRows(() => props.rows);
+  },[]);
 
-  // const queryClient = useQueryClient();
-  // // const mutation = useMutation({
-  // //   mutationFn: (id: number) => {
-  // //     return fetch(`http://localhost:8800/api/${props.slug}/${id}`, {
-  // //       method: "delete",
-  // //     });
-  // //   },
-  // //   onSuccess: ()=>{
-  // //     queryClient.invalidateQueries([`all${props.slug}`]);
-  // //   }
-  // // });
-
-  const handleDelete = (id: number) => {
-    return id;
-    //delete the item
-    // mutation.mutate(id)
+  const processRowUpdate = (newRow: TBookmarkItem) => {
+    setlocalRows(localRows.map((row) => (row.id === newRow.id ? newRow : row)));
+    return newRow;
   };
 
+  const handleDelete = (id: number) => {
+    setlocalRows((x) => x.filter(i => i.id != id));
+  };
+
+  const onAddClickHandler = () => {
+    const id = localRows.length == 0 ? 1 : Math.max(...localRows.map(a => a.id)) + 1;
+    const newRow = { id, name:"", icon:"", url:"" } as TBookmarkItem;
+    setlocalRows((oldRows) => [...oldRows, newRow]);
+    setRowModesModel((oldModel) => ({
+      ...oldModel,
+      [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
+    }));
+  };
+
+  const onApplyClickHandler = () => {
+    props.onSaveHandler(localRows);
+  }
   const actionColumn: GridColDef = {
     field: "action",
     headerName: "Action",
-    width: 200,
+    width: 100,
     renderCell: (params) => {
       return (
         <div className="action">
-          <Link to={`/${props.slug}/${params.row.id}`}>
-            <img src="/view.svg" alt="" />
-          </Link>
           <div className="delete" onClick={() => handleDelete(params.row.id)}>
             <img src="/delete.svg" alt="" />
           </div>
@@ -57,24 +65,30 @@ const DataTable = (props: Props) => {
     <div className="dataTable">
       <DataGrid
         className="dataGrid"
-        rows={props.rows}
+        rows={localRows}
+        editMode="row"
+        rowHeight={40}
+        rowModesModel={rowModesModel}
+        onRowModesModelChange={setRowModesModel}
         columns={[...props.columns, actionColumn]}
+        processRowUpdate={processRowUpdate}
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 10,
+              pageSize: 15,
             },
           },
         }}
-        slots={{ toolbar: GridToolbar }}
+        slots={{ toolbar: CustomGridToolbar }}
         slotProps={{
           toolbar: {
-            showQuickFilter: true,
-            quickFilterProps: { debounceMs: 500 },
+            setRows: setlocalRows,
+            onCloseClickHandler: props.onCloseClickHandler,
+            onAddClickHandler: onAddClickHandler,
+            onApplyClickHandler: onApplyClickHandler
           },
         }}
-        pageSizeOptions={[5]}
-        checkboxSelection
+        pageSizeOptions={[15]}
         disableRowSelectionOnClick
         disableColumnFilter
         disableDensitySelector
