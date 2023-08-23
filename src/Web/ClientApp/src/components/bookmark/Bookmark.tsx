@@ -25,8 +25,6 @@ const Bookmark = ({storageKey}:TProps) => {
       <div className="bookmark">
         <CardCommand cardTitle="Bookmark" isEdit={isEdit} onEditHandler={() => setEditMode(!isEdit)} />
 
-        {isEdit && <BookmarkEditor />}
-
         <div className="content">
           {items.map(item=>(item.url) ? (
             <a className="listItem" key={item.id} href={item.url} target="_blank">
@@ -36,6 +34,9 @@ const Bookmark = ({storageKey}:TProps) => {
           ) 
           : <div className="emptyItem"></div>)}
         </div>
+
+        {isEdit && <BookmarkEditor />}
+
       </div>
   )
 };
