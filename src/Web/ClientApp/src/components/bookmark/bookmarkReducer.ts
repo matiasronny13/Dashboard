@@ -32,12 +32,12 @@ export const initialState:TBookmarkState = {
     isEdit: false, 
     firstCall: false,
     storageKey: "",
-    initializeState: (state:TBookmarkState) => {},
-    addItem: (newItem:TBookmarkItem) => {},
-    updateItem: (item:TBookmarkItem) => {},
-    deleteItem: (item:TBookmarkItem) => {},
-    setItems: (items:TBookmarkItem[]) => {},
-    setEditMode: (mode: boolean) => {}
+    initializeState: () => {},
+    addItem: () => {},
+    updateItem: () => {},
+    deleteItem: () => {},
+    setItems: () => {},
+    setEditMode: () => {}
 };
 
 type TAction =  { payload: TBookmarkState; type: REDUCER_ACTION_TYPE.INITIALIZE; } |
