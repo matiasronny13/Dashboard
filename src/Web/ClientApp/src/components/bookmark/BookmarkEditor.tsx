@@ -16,7 +16,10 @@ const BookmarkEditor = () => {
       width: 170,
       editable: true,
       renderCell: (params) => {
-        return <img src={params.row.icon || "/noavatar.png"} alt="" />;
+        return <><img src={params.row.icon || "/noavatar.png"} alt="" /></>
+      },
+      renderEditCell: (params) => {
+        return <><img src={params.row.icon || "/noavatar.png"} alt="" /></>
       },
     },
     {
