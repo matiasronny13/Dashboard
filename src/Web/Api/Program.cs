@@ -6,7 +6,7 @@ using FastEndpoints;
 using FastEndpoints.Swagger;
 using System.Text.Json.Serialization;
 using System.Text.Json;
-using Microsoft.Extensions.Options;
+using Domain.Models;
 
 ConfigureFastEndpoints();
 
@@ -19,6 +19,7 @@ void ConfigureFastEndpoints()
     //Use Serilog
     builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
+    builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
     builder.Services.AddFastEndpoints();
     builder.Services.SwaggerDocument(options =>
     {
