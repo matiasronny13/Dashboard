@@ -1,7 +1,9 @@
+@import '../../styles/variables.scss';
+
 .dataTable{
 
   .dataGrid{
-    background: white;
+    background: $dark-bg;
     padding: 20px;
 
     img{
