@@ -1,46 +1,32 @@
-import { useState } from 'react';
-import './downloadDialog.scss'
+import { Button } from '@mui/material';
 import { TBookmarkItem } from './bookmarkReducer';
-import { Button, Popover } from '@mui/material';
+import './downloadDialog.scss'
 
-const DownloadDialog = (props: TBookmarkItem) => {
+type TProps = {
+    data: TBookmarkItem;
+    onClose: ()=>void;
+    onSubmit: (data:FormData)=>void;
+}
+
+const DownloadDialog = (props: TProps) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        props.onClose();
+        props.onSubmit(new FormData(e.target as HTMLFormElement));
+    };
     
-    const [anchorEl, setAnchorEl] = useState<HTMLImageElement | null>(null);
-
-    const handleClick = (event: React.MouseEvent<HTMLImageElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-    const open = Boolean(anchorEl);
-    const id = open ? 'simple-popover' : undefined;
-
     return (
-    <div className='downloadDialog'>
-        <img id={id} className='icon' src={props.icon || "/noavatar.png"} alt="" onClick={handleClick}/>
-        <Popover
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-        }}
-        >
-            <div className='downloadPanel'> 
+        <div className='downloadDialog'> 
+            <form onSubmit={handleSubmit}>
                 <label>File Name</label>
-                <input title='FileName' type='text' defaultValue={props.icon}></input>
+                <input title='FileName' name="fileName" type='text' defaultValue={props.data.icon}></input>
                 <label>Url</label>
-                <input title='Url' type='text' ></input>
-                <div></div>
-                <Button>Update</Button>
-            </div>
-        </Popover>
-    </div>);
+                <input title='Url' name="url" type='text' ></input>           
+                <Button type="submit">Update</Button>
+            </form> 
+        </div>
+    );
 }
 
 export default DownloadDialog;
