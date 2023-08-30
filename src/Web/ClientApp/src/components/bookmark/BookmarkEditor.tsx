@@ -26,7 +26,7 @@ const BookmarkEditor = () => {
   };
   
   const mutation = useMutation({
-    mutationFn: ({item, data}:TDownloadDialogResult) => {
+    mutationFn: (params:TDownloadDialogResult) => {
       setPageError(x => ({...x, isError:false}));
       return fetch("/api/bookmark/favicon/download", 
       {
@@ -35,20 +35,20 @@ const BookmarkEditor = () => {
             Accept: 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"url": data.get('url'), "fileName": data.get('fileName')})
+        body: JSON.stringify({"url": params.data.get('url'), "fileName": params.data.get('fileName')})
       })
       .then(response => {
         if (!response.ok) { throw new Error("/api/bookmark/favicon/download"); }        
       }) 
     },
-    onSuccess: (data, variables) => {      
+    onSuccess: (_data, variables) => {      
       gridApiRef.current.setEditCellValue({
         id: variables.item.id,
         field: 'icon',
         value: `/bookmark/${variables.data.get('fileName')}`,
       });
     },
-    onError: (error, variables) => {
+    onError: (_error, variables) => {
       setPageError(x => ({...x, isError:true, message: `fail to download favicon from ${variables.data.get('url')}`}));
     }
   })
