@@ -1,6 +1,5 @@
 ﻿using Domain.Models;
 using Microsoft.Extensions.Options;
-using System.Drawing;
 
 namespace Application.Bookmark
 {
@@ -23,17 +22,9 @@ namespace Application.Bookmark
         public async Task DownloadFavicon(DownloadRequest request)
         {
             var client = _httpClientFactory.CreateClient("HttpClient");
-
             var response = await client.GetAsync(request.Url);
             response.EnsureSuccessStatusCode();
-
-            string filePath = String.Empty;
-
-            using (Stream stream = await response.Content.ReadAsStreamAsync())
-            {
-                Image img = Image.FromStream(stream);
-                img.Save($"{_options.Bookmark.FilePaths["Favicon"]}//{request.FileName}");
-            }            
+            File.WriteAllBytes(Path.Combine(_options.Bookmark.FilePaths["Favicon"], request.FileName), await response.Content.ReadAsByteArrayAsync());
         }
     }
 
