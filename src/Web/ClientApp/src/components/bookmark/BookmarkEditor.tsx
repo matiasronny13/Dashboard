@@ -1,7 +1,7 @@
 import useBookmark from './BookmarkContext';
 import './bookmarkEditor.scss'
 import DataTable from '../dataTable/DataTable';
-import { GridColDef } from "@mui/x-data-grid";
+import { GridColDef, useGridApiRef } from "@mui/x-data-grid";
 import { TBookmarkItem } from './bookmarkReducer';
 import Popover from '@mui/material/Popover';
 import { useState } from 'react';
@@ -12,8 +12,9 @@ import { Alert } from '@mui/material';
 type TDownloadDialogResult = {item: TBookmarkItem, data: FormData};
 
 const BookmarkEditor = () => {
+  const gridApiRef = useGridApiRef();
   const [pageError, setPageError] = useState({isError: false, message: ""});
-  const {items, storageKey, setEditMode, setItems, updateItem} = useBookmark();
+  const {items, storageKey, setEditMode, setItems} = useBookmark();
   const [anchorEl, setAnchorEl] = useState<HTMLImageElement | null>(null);
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
@@ -26,6 +27,7 @@ const BookmarkEditor = () => {
   
   const mutation = useMutation({
     mutationFn: ({item, data}:TDownloadDialogResult) => {
+      setPageError(x => ({...x, isError:false}));
       return fetch("/api/bookmark/favicon/download", 
       {
         method: 'POST',
@@ -39,10 +41,14 @@ const BookmarkEditor = () => {
         if (!response.ok) { throw new Error("/api/bookmark/favicon/download"); }        
       }) 
     },
-    onSuccess: (data, variables, context) => {      
-      updateItem({...variables.item, icon: `/bookmark/${variables.data.get('fileName')}`})
+    onSuccess: (data, variables) => {      
+      gridApiRef.current.setEditCellValue({
+        id: variables.item.id,
+        field: 'icon',
+        value: `/bookmark/${variables.data.get('fileName')}`,
+      });
     },
-    onError: (error, variables, context) => {
+    onError: (error, variables) => {
       setPageError(x => ({...x, isError:true, message: `fail to download favicon from ${variables.data.get('url')}`}));
     }
   })
@@ -89,12 +95,11 @@ const BookmarkEditor = () => {
   };
 
   return (
-      <div className='bookmarkEditor'>
-          {pageError.isError && <Alert severity="error" onClose={() => setPageError(x => ({...x, isError:false}))}>{pageError.message}</Alert>}
-      
+      <div className='bookmarkEditor'>      
           <div className='overlay' onClick={() => setEditMode(false)} />
           <div className='dialog'>
-              <DataTable columns={columns} rows={items} onCloseClickHandler={() => setEditMode(false)} onSaveHandler={onSaveHandler}></DataTable>
+              {pageError.isError && <Alert severity="error" onClose={() => setPageError(x => ({...x, isError:false}))}>{pageError.message}</Alert>}
+              <DataTable gridApiRef={gridApiRef} columns={columns} rows={items} onCloseClickHandler={() => setEditMode(false)} onSaveHandler={onSaveHandler}></DataTable>
           </div>
       </div>
   );

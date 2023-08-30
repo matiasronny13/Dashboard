@@ -1,22 +1,27 @@
 import {
   DataGrid,
+  DataGridProps,
   GridColDef,
+  GridRowId,
   GridRowModes,
   GridRowModesModel
 } from "@mui/x-data-grid";
 import "./dataTable.scss";
 import CustomGridToolbar from "./CustomGridToolbar";
-import { useEffect, useState } from "react";
+import { MutableRefObject, useEffect, useState } from "react";
 import { TBookmarkItem } from "../bookmark/bookmarkReducer";
+import { GridApiCommunity } from "@mui/x-data-grid/internals";
 
 type TProps = {
   columns: GridColDef[];
   rows: TBookmarkItem[];
+  gridApiRef: MutableRefObject<GridApiCommunity>;
   onCloseClickHandler: () => void;
   onSaveHandler: (items:TBookmarkItem[]) => void;
 };
 
 const DataTable = (props: TProps) => {
+  const [lastEditedId, setLastEditedId] = useState<GridRowId>();
   const [localRows, setlocalRows] = useState<TBookmarkItem[]>([]);
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
 
@@ -37,6 +42,7 @@ const DataTable = (props: TProps) => {
     const id = localRows.length == 0 ? 1 : Math.max(...localRows.map(a => a.id)) + 1;
     const newRow = { id, name:"", icon:"", url:"" } as TBookmarkItem;
     setlocalRows((oldRows) => [...oldRows, newRow]);
+    setLastEditedId(() => id);
     setRowModesModel((oldModel) => ({
       ...oldModel,
       [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
@@ -44,8 +50,22 @@ const DataTable = (props: TProps) => {
   };
 
   const onApplyClickHandler = () => {
-    props.onSaveHandler(localRows);
-  }
+    let tempResult = localRows;
+    if(lastEditedId)
+    {
+      if(props.gridApiRef.current.getRowMode(lastEditedId ?? -1) == GridRowModes.Edit)
+      {
+        const updatedValue = props.gridApiRef.current.getRowWithUpdatedValues(lastEditedId, "");  
+        tempResult = localRows.map((row) => (row.id === updatedValue.id ? updatedValue : row)) as TBookmarkItem[];
+      }
+    }
+    props.onSaveHandler(tempResult);
+  };
+
+  const onRowEditStart: DataGridProps['onRowEditStart'] = (params) => {
+    setLastEditedId(() => params.id);
+  };
+
   const actionColumn: GridColDef = {
     field: "action",
     headerName: "Action",
@@ -64,14 +84,16 @@ const DataTable = (props: TProps) => {
   return (
     <div className="dataTable">
       <DataGrid
+        apiRef={props.gridApiRef}
         className="dataGrid"
         rows={localRows}
+        columns={[...props.columns, actionColumn]}
         editMode="row"
-        rowHeight={40}
+        rowHeight={40}        
         rowModesModel={rowModesModel}
         onRowModesModelChange={setRowModesModel}
-        columns={[...props.columns, actionColumn]}
         processRowUpdate={processRowUpdate}
+        onRowEditStart={onRowEditStart}
         initialState={{
           pagination: {
             paginationModel: {
