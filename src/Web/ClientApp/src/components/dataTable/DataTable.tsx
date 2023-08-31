@@ -11,6 +11,7 @@ import CustomGridToolbar from "./CustomGridToolbar";
 import { MutableRefObject, useEffect, useState } from "react";
 import { TBookmarkItem } from "../bookmark/bookmarkReducer";
 import { GridApiCommunity } from "@mui/x-data-grid/internals";
+import { styled } from "@mui/material";
 
 type TProps = {
   columns: GridColDef[];
@@ -19,6 +20,20 @@ type TProps = {
   onCloseClickHandler: () => void;
   onSaveHandler: (items:TBookmarkItem[]) => void;
 };
+
+const StyledDataGrid = styled(DataGrid)(() => ({
+    '& .MuiDataGrid-cell': {
+        padding: "0px 1px"
+    },
+    '& .MuiDataGrid-cell--editing': {
+        '& .MuiInputBase-input': {
+            padding: "0px"
+        },
+        '& .icon': {
+            cursor: "pointer"
+        }
+    }
+}));
 
 const DataTable = (props: TProps) => {
   const [lastEditedId, setLastEditedId] = useState<GridRowId>();
@@ -83,7 +98,7 @@ const DataTable = (props: TProps) => {
 
   return (
     <div className="dataTable">
-      <DataGrid
+    <StyledDataGrid
         apiRef={props.gridApiRef}
         className="dataGrid"
         rows={localRows}
@@ -92,7 +107,7 @@ const DataTable = (props: TProps) => {
         rowHeight={40}        
         rowModesModel={rowModesModel}
         onRowModesModelChange={setRowModesModel}
-        processRowUpdate={processRowUpdate}
+        processRowUpdate={(updatedRow) => processRowUpdate(updatedRow as TBookmarkItem)}
         onRowEditStart={onRowEditStart}
         initialState={{
           pagination: {
