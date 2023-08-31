@@ -7,7 +7,7 @@ import Popover from '@mui/material/Popover';
 import { useState } from 'react';
 import DownloadDialog from './DownloadDialog';
 import { useMutation } from '@tanstack/react-query';
-import { Alert } from '@mui/material';
+import { Alert, CircularProgress } from '@mui/material';
 
 type TDownloadDialogResult = {item: TBookmarkItem, data: FormData};
 
@@ -64,7 +64,8 @@ const BookmarkEditor = () => {
       },
       renderEditCell: (params) => {
         return <>
-          <img className='icon' src={params.row.icon || "/noavatar.png"} alt="" onClick={handleClick}/>
+          {!mutation.isLoading && <img className='icon' src={params.row.icon || "/noavatar.png"} alt="" onClick={handleClick}/>}
+          {mutation.isLoading && <CircularProgress size={25} />}
           <Popover id={id} open={open} anchorEl={anchorEl} onClose={handleClose} anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}>
             <DownloadDialog data={params.row} onClose={handleClose} onSubmit={(data) => mutation.mutate({item: params.row, data: data})}/>
           </Popover>
