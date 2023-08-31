@@ -51,11 +51,12 @@ void ConfigureFastEndpoints()
     app.UseCors(AllowSpecificOriginsId);
     app.UseMiddleware<ExceptionHandlerMiddleware>();
     app.UseFastEndpoints(options => {
-            options.Serializer.Options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-            options.Serializer.Options.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-        })
-        .UseAuthorization()       
-        .UseSwaggerGen();
+        options.Endpoints.RoutePrefix = "api";
+        options.Serializer.Options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        options.Serializer.Options.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    })
+    .UseAuthorization()       
+    .UseSwaggerGen();
 
     app.Run();
 }

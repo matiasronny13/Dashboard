@@ -28,11 +28,10 @@ const BookmarkEditor = () => {
   const mutation = useMutation({
     mutationFn: (params:TDownloadDialogResult) => {
       setPageError(x => ({...x, isError:false}));
-      return fetch("/api/bookmark/favicon/download", 
+          return fetch("/api/bookmark/favicon/download", 
       {
         method: 'POST',
         headers: {
-            Accept: 'application/json',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({"url": params.data.get('url'), "fileName": params.data.get('fileName')})
