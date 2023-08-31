@@ -12,7 +12,21 @@ ConfigureFastEndpoints();
 
 void ConfigureFastEndpoints()
 {
+    var AllowSpecificOriginsId = "AllowSpecificOriginsId";
     var builder = WebApplication.CreateBuilder(args);
+
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy(name: AllowSpecificOriginsId,
+                          policy =>
+                          {
+                              string[]? origins = builder.Configuration.GetSection("CorsOrigins").Get<string[]>();
+                              if (origins != null)
+                              {
+                                  policy.WithOrigins(origins);
+                              }
+                          });
+    });
 
     builder.Logging.ClearProviders();
 
@@ -34,6 +48,7 @@ void ConfigureFastEndpoints()
 
     WebApplication app = builder.Build();
 
+    app.UseCors(AllowSpecificOriginsId);
     app.UseMiddleware<ExceptionHandlerMiddleware>();
     app.UseFastEndpoints(options => {
             options.Serializer.Options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
