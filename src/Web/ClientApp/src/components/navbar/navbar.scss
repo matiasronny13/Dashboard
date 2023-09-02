@@ -2,24 +2,27 @@
 @import "../../styles/variables.scss";
 
 .navbar {
-  width: 100%;
   padding: 20px 20px 0px 20px;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   align-items: center;
-  justify-content: space-between;
   
-  .logo {
+  .middle {
     display: flex;
-    align-items: center;
-    font-weight: bold;
-    gap: 10px;
+    justify-content: center;
   }
-  .icons {
+
+  .right {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 20px;
 
     .icon{
+      cursor: pointer;
+    }
+
+    .hide-on-mobile {
       @include sm{
         display: none;
       }
@@ -41,19 +44,6 @@
         align-items: center;
         justify-content: center;
         font-size: 12px;
-      }
-    }
-
-    .user {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-
-      img {
-        width: 26px;
-        height: 26px;
-        border-radius: 50%;
-        object-fit: cover;
       }
     }
   }

@@ -4,19 +4,16 @@ import "./navbar.scss";
 const Navbar = () => {
   return (
     <div className="navbar">
-      <div className="logo"></div>
-      <SearchBar></SearchBar>
-      <div className="icons">
-        <img src="/app.svg" alt="" className="icon" />
-        <div className="notification">
+      <div className="left"></div>
+      <div className="middle"><SearchBar /></div>
+      <div className="right">
+        <img src="/app.svg" alt="" className="icon hide-on-mobile" />
+        <div className="notification hide-on-mobile">
           <img src="/notifications.svg" alt="" className="icon"/>
-          <span>0</span>
+          <span className="icon">0</span>
         </div>
-        <div className="user">
-          <img src="/profile.svg" alt="" className="icon" />
-          <span>Joe</span>
-        </div>
-        <img src="/settings.svg" alt="" className="icon" />
+        <img src="/profile.svg" alt="" className="icon hide-on-mobile" />
+        <img src="/settings.svg" alt="" className="icon hide-on-mobile" />
       </div>
     </div>
   );
