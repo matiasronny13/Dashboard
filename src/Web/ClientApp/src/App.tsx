@@ -4,6 +4,7 @@ import Navbar from "./components/navbar/Navbar";
 import "./styles/global.scss";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import Footer from './components/footer/Footer';
 
 const queryClient = new QueryClient();
 const Home = lazy(() => import("./pages/home/Home"));
@@ -25,6 +26,7 @@ function App() {
               <Outlet />
             </QueryClientProvider>
           </div>
+          <Footer />
         </div>
       </ThemeProvider>
     );

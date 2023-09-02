@@ -18,7 +18,15 @@ a {
   color: inherit;
 }
 
-.container {
-  width: 100%;
-  padding: 20px;
+.main {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  
+  .container {
+    padding: 20px;
+    flex-grow: 1;
+  }
+
+  //div {border: 1px solid white;}
 }
