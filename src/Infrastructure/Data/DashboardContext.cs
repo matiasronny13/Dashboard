@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Application.Common.Interfaces;
+﻿using Application.Common.Interfaces;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,21 +15,46 @@ public partial class DashboardContext : DbContext, IDashboardContext
     {
     }
 
+    public virtual DbSet<Collection> Collections { get; set; }
+
     public virtual DbSet<RssFeed> RssFeeds { get; set; }
 
     public virtual DbSet<RssGroup> RssGroups { get; set; }
 
     public virtual DbSet<RssItem> RssItems { get; set; }
 
+    public virtual DbSet<Tag> Tags { get; set; }
+
     public virtual DbSet<UserProfile> UserProfiles { get; set; }
 
 //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseNpgsql("Server=127.0.0.1;Port=5432;Database=");
+//        => optionsBuilder.UseNpgsql("host=localhost;database=dashboard;user id=postgres;password=Sierra131313");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasPostgresExtension("uuid-ossp");
+
+        modelBuilder.Entity<Collection>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("collection_pkey");
+
+            entity.ToTable("collection");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Created)
+                .HasDefaultValueSql("now()")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("created");
+            entity.Property(e => e.Tags).HasColumnName("tags");
+            entity.Property(e => e.Updated)
+                .HasDefaultValueSql("now()")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("updated");
+            entity.Property(e => e.Url)
+                .HasColumnType("character varying")
+                .HasColumnName("url");
+        });
 
         modelBuilder.Entity<RssFeed>(entity =>
         {
@@ -113,6 +136,27 @@ public partial class DashboardContext : DbContext, IDashboardContext
                 .HasConstraintName("fk_item_feed");
         });
 
+        modelBuilder.Entity<Tag>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("tags_pkey");
+
+            entity.ToTable("tags");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Created)
+                .HasDefaultValueSql("now()")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("created");
+            entity.Property(e => e.ParentId).HasColumnName("parent_id");
+            entity.Property(e => e.Title)
+                .HasColumnType("character varying")
+                .HasColumnName("title");
+            entity.Property(e => e.Updated)
+                .HasDefaultValueSql("now()")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("updated");
+        });
+
         modelBuilder.Entity<UserProfile>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("user_profile_pkey");
@@ -128,6 +172,8 @@ public partial class DashboardContext : DbContext, IDashboardContext
                 .HasMaxLength(100)
                 .HasColumnName("name");
         });
+        modelBuilder.HasSequence("collection_id_seq");
+        modelBuilder.HasSequence("tags_id_seq");
 
         OnModelCreatingPartial(modelBuilder);
     }
