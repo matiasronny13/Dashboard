@@ -1,8 +1,11 @@
-﻿namespace Domain.Entities;
+﻿using System;
+using System.Collections.Generic;
 
-public partial class Collection
+namespace Domain.Entities;
+
+public partial class WebTag
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
 
     public string? Url { get; set; }
 

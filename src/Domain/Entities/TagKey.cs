@@ -1,6 +1,9 @@
-﻿namespace Domain.Entities;
+﻿using System;
+using System.Collections.Generic;
 
-public partial class Tag
+namespace Domain.Entities;
+
+public partial class TagKey
 {
     public long Id { get; set; }
 

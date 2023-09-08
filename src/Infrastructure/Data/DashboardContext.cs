@@ -1,4 +1,6 @@
-﻿using Application.Common.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using Application.Common.Interfaces;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,16 +8,10 @@ namespace Infrastructure.Data;
 
 public partial class DashboardContext : DbContext, IDashboardContext
 {
-    public DashboardContext()
-    {
-    }
-
     public DashboardContext(DbContextOptions<DashboardContext> options)
         : base(options)
     {
     }
-
-    public virtual DbSet<Collection> Collections { get; set; }
 
     public virtual DbSet<RssFeed> RssFeeds { get; set; }
 
@@ -23,38 +19,15 @@ public partial class DashboardContext : DbContext, IDashboardContext
 
     public virtual DbSet<RssItem> RssItems { get; set; }
 
-    public virtual DbSet<Tag> Tags { get; set; }
+    public virtual DbSet<TagKey> TagKeys { get; set; }
 
     public virtual DbSet<UserProfile> UserProfiles { get; set; }
 
-//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseNpgsql("host=localhost;database=dashboard;user id=postgres;password=Sierra131313");
+    public virtual DbSet<WebTag> WebTags { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasPostgresExtension("uuid-ossp");
-
-        modelBuilder.Entity<Collection>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("collection_pkey");
-
-            entity.ToTable("collection");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Created)
-                .HasDefaultValueSql("now()")
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("created");
-            entity.Property(e => e.Tags).HasColumnName("tags");
-            entity.Property(e => e.Updated)
-                .HasDefaultValueSql("now()")
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("updated");
-            entity.Property(e => e.Url)
-                .HasColumnType("character varying")
-                .HasColumnName("url");
-        });
 
         modelBuilder.Entity<RssFeed>(entity =>
         {
@@ -136,11 +109,11 @@ public partial class DashboardContext : DbContext, IDashboardContext
                 .HasConstraintName("fk_item_feed");
         });
 
-        modelBuilder.Entity<Tag>(entity =>
+        modelBuilder.Entity<TagKey>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("tags_pkey");
+            entity.HasKey(e => e.Id).HasName("tag_key_pkey");
 
-            entity.ToTable("tags");
+            entity.ToTable("tag_key");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Created)
@@ -172,8 +145,30 @@ public partial class DashboardContext : DbContext, IDashboardContext
                 .HasMaxLength(100)
                 .HasColumnName("name");
         });
-        modelBuilder.HasSequence("collection_id_seq");
-        modelBuilder.HasSequence("tags_id_seq");
+
+        modelBuilder.Entity<WebTag>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("web_tag_pkey");
+
+            entity.ToTable("web_tag");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Created)
+                .HasDefaultValueSql("now()")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("created");
+            entity.Property(e => e.Tags).HasColumnName("tags");
+            entity.Property(e => e.Updated)
+                .HasDefaultValueSql("now()")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("updated");
+            entity.Property(e => e.Url)
+                .HasColumnType("character varying")
+                .HasColumnName("url");
+        });
+        modelBuilder.HasSequence("tag_key_id_seq");
 
         OnModelCreatingPartial(modelBuilder);
     }
