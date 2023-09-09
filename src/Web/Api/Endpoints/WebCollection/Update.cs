@@ -3,19 +3,19 @@ using FastEndpoints;
 
 namespace Api.Endpoints.WebCollection
 {
-    internal class Create: Endpoint<Create.RequestDto, Create.ResponseDto, Create.DtoMapper>
+    internal class Update: Endpoint<Update.RequestDto, Update.ResponseDto, Update.DtoMapper>
     {
         public IWebTagService? AppService { get; init; }
 
         public override void Configure()
         {
-            Post("/collection");
+            Put("/collection");
             AllowAnonymous();
         }
         public override async Task HandleAsync(RequestDto request, CancellationToken ct)
         {
-            AppService?.Create(Map.ToEntity(request));
-            await SendCreatedAtAsync<WebCollection.Get>(request, new ResponseDto());
+            AppService?.Update(Map.ToEntity(request));
+            await SendOkAsync();
         }
 
         #region Internal Classes

@@ -3,46 +3,59 @@ using FastEndpoints;
 
 namespace Api.Endpoints.WebCollection
 {
-    internal class Get : Endpoint<GetRequest, GetResponse, GetMapper>
+    internal class Get : Endpoint<Get.RequestDto, Get.ResponseDto, Get.DtoMapper>
     {
-        public IWebTagService _appService { get; init; }
+        public IWebTagService? AppService { get; init; }
         public override void Configure()
         {
             Get("/collection/{Hash}");
             AllowAnonymous();
         }
-        public override async Task HandleAsync(GetRequest request, CancellationToken ct)
+        public override async Task HandleAsync(Get.RequestDto request, CancellationToken ct)
         {
-            var result = await _appService.GetAsync(request.Hash);
-            await SendOkAsync(Map.FromEntity(result));
-        }
-    }
-    internal class GetRequest
-    {
-        public string Hash { get; set; }
-    }
+            var result = await AppService!.GetAsync(request.Hash);
 
-    internal class GetResponse
-    {
-        public string Id { get; set; }
-
-        public string? Url { get; set; }
-
-        public string Title { get; set; }
-
-        public int[]? Tags { get; set; }
-    }
-    internal class GetMapper: Mapper<GetRequest, GetResponse, WebTagDto>
-    {
-        public override GetResponse FromEntity(WebTagDto e)
-        {
-            return new GetResponse()
+            if (result != null)
             {
-                Id = e.Id,
-                Url = e.Url,
-                Title = e.Title,
-                Tags = e.Tags,
-            };
+                await SendOkAsync(Map.FromEntity(result));
+            }
+            else
+            {
+                await SendNotFoundAsync(ct);
+            }
         }
+
+        #region Internal Classes
+        internal class RequestDto
+        {
+            public string Hash { get; set; }
+        }
+
+        internal class ResponseDto
+        {
+            public string? Id { get; set; }
+
+            public string? Url { get; set; }
+
+            public string? Title { get; set; }
+            public string? Note { get; set; }
+
+            public int[]? Tags { get; set; }
+        }
+        internal class DtoMapper : Mapper<RequestDto, ResponseDto, WebTagDto>
+        {
+            public override ResponseDto FromEntity(WebTagDto e)
+            {
+                return new ResponseDto()
+                {
+                    Id = e.Id,
+                    Url = e.Url,
+                    Title = e.Title,
+                    Note = e.Note,
+                    Tags = e.Tags,
+                };
+            }
+        }
+        #endregion
     }
 }
