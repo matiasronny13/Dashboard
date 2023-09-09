@@ -153,13 +153,19 @@ public partial class DashboardContext : DbContext, IDashboardContext
             entity.ToTable("web_tag");
 
             entity.Property(e => e.Id)
-                .ValueGeneratedNever()
+                .HasMaxLength(32)
                 .HasColumnName("id");
             entity.Property(e => e.Created)
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("created");
+            entity.Property(e => e.Note)
+                .HasColumnType("character varying")
+                .HasColumnName("note");
             entity.Property(e => e.Tags).HasColumnName("tags");
+            entity.Property(e => e.Title)
+                .HasColumnType("character varying")
+                .HasColumnName("title");
             entity.Property(e => e.Updated)
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
