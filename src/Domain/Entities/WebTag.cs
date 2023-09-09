@@ -5,7 +5,7 @@ namespace Domain.Entities;
 
 public partial class WebTag
 {
-    public Guid Id { get; set; }
+    public string Id { get; set; }
 
     public string? Url { get; set; }
 

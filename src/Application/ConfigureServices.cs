@@ -1,9 +1,9 @@
 ﻿using Application.Rss;
 using Application.User;
 using Microsoft.Extensions.DependencyInjection;
-using AutoMapper;
 using System.Reflection;
 using Application.Bookmark;
+using Application.WebCollection;
 
 namespace Application
 {
@@ -17,6 +17,8 @@ namespace Application
             services.AddScoped<IBookmarkService, BookmarkService>();
             services.AddScoped<IGroupService, GroupService>();
             services.AddScoped<IProfileService, ProfileService>();
+            services.AddScoped<IWebTagService, WebTagService>();
+            services.AddScoped<ITagKeyService, TagKeyService>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             return services;
         }

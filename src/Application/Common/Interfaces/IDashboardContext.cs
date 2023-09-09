@@ -16,5 +16,7 @@ namespace Application.Common.Interfaces
         DbSet<UserProfile> UserProfiles { get; set; }
 
         DbSet<WebTag> WebTags { get; set; }
+
+        int SaveChanges();
     }
 }
