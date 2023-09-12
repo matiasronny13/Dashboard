@@ -47,7 +47,7 @@ function App() {
         }
       ],
     }
-  ]);
+  ], { basename:"/dashboard" });
 
   return <RouterProvider router={router} />;
 }
