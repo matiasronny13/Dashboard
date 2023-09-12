@@ -24,17 +24,17 @@ const CardCommand = ({cardTitle, isEdit, onSaveHandler, onCancelHandler, onEditH
         <div className="cardCommand">
             <div className='title'>{cardTitle}</div>
             <div className='commands'>
-                {isEdit && <img alt="" src="/bx-check.svg" onClick={onSaveHandler}></img>}
-                {isEdit && <img alt="" src="/bx-x.svg" onClick={onCancelHandler}></img>}
-                {!isEdit && <img alt="" src="/bxs-edit.svg" onClick={onEditHandler}></img>}
-                {/* <img alt="" src="/bx-cog.svg" onClick={handleClick}></img>
+                {isEdit && <img alt="" src="bx-check.svg" onClick={onSaveHandler}></img>}
+                {isEdit && <img alt="" src="bx-x.svg" onClick={onCancelHandler}></img>}
+                {!isEdit && <img alt="" src="bxs-edit.svg" onClick={onEditHandler}></img>}
+                {/* <img alt="" src="bx-cog.svg" onClick={handleClick}></img>
                 <Menu id="engine-menu" 
                         anchorEl={anchorEl} open={open} onClose={() => { handleClose(); }}
                         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                         transformOrigin={{ vertical: 'top', horizontal: 'right' }}>          
                     <MenuItem onClick={() => { handleClose(); }}>
                         <ListItemIcon>
-                            <img className="searchEngineIcon" src="/bx-cog.svg" alt="" />
+                            <img className="searchEngineIcon" src="bx-cog.svg" alt="" />
                         </ListItemIcon>
                         <ListItemText>Delete</ListItemText>
                     </MenuItem>

@@ -44,7 +44,7 @@ const BookmarkEditor = () => {
       gridApiRef.current.setEditCellValue({
         id: variables.item.id,
         field: 'icon',
-        value: `/bookmark/${variables.data.get('fileName')}`,
+        value: `bookmark/${variables.data.get('fileName')}`,
       });
     },
     onError: (_error, variables) => {
