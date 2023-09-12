@@ -1,5 +1,6 @@
 ﻿using Application.WebCollection;
 using FastEndpoints;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace Api.Endpoints.WebCollection
 {
@@ -14,8 +15,9 @@ namespace Api.Endpoints.WebCollection
         }
         public override async Task HandleAsync(RequestDto request, CancellationToken ct)
         {
-            AppService?.Update(Map.ToEntity(request));
-            await SendOkAsync(ct);
+            WebTagDto entity = Map.ToEntity(request);
+            AppService?.Update(entity);
+            await SendOkAsync(Map.FromEntity(entity), ct);
         }
 
         #region Internal Classes
@@ -46,6 +48,18 @@ namespace Api.Endpoints.WebCollection
             public override WebTagDto ToEntity(RequestDto e)
             {
                 return new WebTagDto()
+                {
+                    Id = e.Id,
+                    Url = e.Url,
+                    Title = e.Title,
+                    Note = e.Note,
+                    Tags = e.Tags,
+                };
+            }
+
+            public override ResponseDto FromEntity(WebTagDto e)
+            {
+                return new ResponseDto()
                 {
                     Id = e.Id,
                     Url = e.Url,
