@@ -15,7 +15,7 @@ namespace Api.Endpoints.WebCollection
         public override async Task HandleAsync(RequestDto request, CancellationToken ct)
         {
             AppService?.Update(Map.ToEntity(request));
-            await SendOkAsync();
+            await SendOkAsync(ct);
         }
 
         #region Internal Classes

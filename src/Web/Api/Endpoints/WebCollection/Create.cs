@@ -14,8 +14,9 @@ namespace Api.Endpoints.WebCollection
         }
         public override async Task HandleAsync(RequestDto request, CancellationToken ct)
         {
-            AppService?.Create(Map.ToEntity(request));
-            await SendCreatedAtAsync<WebCollection.Get>(request, new ResponseDto());
+            WebTagDto entity = Map.ToEntity(request);
+            AppService?.Create(entity);
+            await SendCreatedAtAsync<WebCollection.Get>(new { Hash = request.Id }, Map.FromEntity(entity));
         }
 
         #region Internal Classes
@@ -46,6 +47,18 @@ namespace Api.Endpoints.WebCollection
             public override WebTagDto ToEntity(RequestDto e)
             {
                 return new WebTagDto()
+                {
+                    Id = e.Id,
+                    Url = e.Url,
+                    Title = e.Title,
+                    Note = e.Note,
+                    Tags = e.Tags,
+                };
+            }
+
+            public override ResponseDto FromEntity(WebTagDto e)
+            {
+                return new ResponseDto()
                 {
                     Id = e.Id,
                     Url = e.Url,
