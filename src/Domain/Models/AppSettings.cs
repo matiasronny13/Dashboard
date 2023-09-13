@@ -2,15 +2,19 @@
 {
     public class AppSettings
     {
-        public AppSettings() {
-            Bookmark = new Bookmark();
-        }
+        public AppSettings() {}
 
-        public Bookmark Bookmark { get; set; }
+        public Bookmark Bookmark { get; set; } = new Bookmark();
+        public WebCollection WebCollection { get; set; } = new WebCollection();
     }
 
     public class Bookmark
     {
         public IDictionary<string, string> FilePaths { get; set; }
+    }
+
+    public class WebCollection
+    {
+        public string ThumbnailPath { get; set; }
     }
 }

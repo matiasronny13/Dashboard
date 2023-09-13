@@ -29,6 +29,7 @@ namespace Api.Endpoints.WebCollection
             public string? Note { get; set; }
 
             public int[]? Tags { get; set; }
+            public string? ThumbnailData { get; set; }
         }
 
         internal class ResponseDto
@@ -53,6 +54,7 @@ namespace Api.Endpoints.WebCollection
                     Title = e.Title,
                     Note = e.Note,
                     Tags = e.Tags,
+                    ThumbnailData = e.ThumbnailData
                 };
             }
 
@@ -64,7 +66,7 @@ namespace Api.Endpoints.WebCollection
                     Url = e.Url,
                     Title = e.Title,
                     Note = e.Note,
-                    Tags = e.Tags,
+                    Tags = e.Tags
                 };
             }
         }

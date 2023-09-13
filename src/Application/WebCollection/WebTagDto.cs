@@ -17,5 +17,6 @@ namespace Application.WebCollection
         public string? Note { get; set; }
 
         public int[]? Tags { get; set; }
+        public string? ThumbnailData { get; set; }
     }
 }
