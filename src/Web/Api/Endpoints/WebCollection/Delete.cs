@@ -5,7 +5,7 @@ namespace Api.Endpoints.WebCollection
 {
     internal class Delete: Endpoint<Delete.RequestDto>
     {
-        public IWebTagService AppService { get; init; }
+        public required IWebTagService AppService { get; init; }
 
         public override void Configure()
         {
