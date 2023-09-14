@@ -5,6 +5,7 @@ using Domain.Entities;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Serilog;
 
 namespace Application.WebCollection
 {
@@ -12,9 +13,9 @@ namespace Application.WebCollection
     {
         public void Create(WebTagDto input);
         public void Update(WebTagDto input);
-        public void Delete();
+        public Task Delete(string[] input);
         public Task<WebTagDto?> GetAsync(string url);
-        public void GetAll();
+        public Task<IList<WebTagDto>> GetAllAsync();
     }
 
     internal class WebTagService: IWebTagService
@@ -22,11 +23,13 @@ namespace Application.WebCollection
         private readonly IDashboardContext _db;
         private readonly IMapper _mapper;
         private readonly AppSettings _options;
-        public WebTagService(IDashboardContext db, IMapper mapper, IOptions<AppSettings> options)
+        private readonly ILogger _logger;
+        public WebTagService(IDashboardContext db, IMapper mapper, IOptions<AppSettings> options, ILogger logger)
         {
             _mapper = mapper;
             _db = db;
             _options = options.Value;
+            _logger = logger;
         }
 
         private void SaveThumbnail(string thumbnailData, string fullFilePath)
@@ -58,13 +61,36 @@ namespace Application.WebCollection
 
             SaveThumbnail(input.ThumbnailData ?? String.Empty, Path.Combine(_options.WebCollection.ThumbnailPath, $"{input.Id}.png"));
         }
-        public void Delete()
-        {
 
+        private async Task DeleteFileAsync(string filePath)
+        {
+            try
+            {
+                if (File.Exists(filePath))
+                {
+                    await Task.Run(() => File.Delete(filePath));
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"Failed to delete {filePath}");
+            }
         }
-        public void GetAll()
-        {
 
+        public async Task Delete(string[] input)
+        {
+            if(input.Count() > 0)
+            {
+                _db.WebTags.RemoveRange(input.Select(id => new WebTag() { Id = id }).ToArray());
+                _db.SaveChanges();
+
+                var tasks = input.Select(id => DeleteFileAsync(Path.Combine(_options.WebCollection.ThumbnailPath, $"{id}.png")));
+                await Task.WhenAll(tasks);
+            }
+        }
+        public async Task<IList<WebTagDto>> GetAllAsync()
+        {
+            return await _db.WebTags.ProjectTo<WebTagDto>(_mapper.ConfigurationProvider).ToListAsync();
         }
     }
 }

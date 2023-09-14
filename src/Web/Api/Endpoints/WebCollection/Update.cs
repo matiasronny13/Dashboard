@@ -6,7 +6,7 @@ namespace Api.Endpoints.WebCollection
 {
     internal class Update: Endpoint<Update.RequestDto, Update.ResponseDto, Update.DtoMapper>
     {
-        public IWebTagService? AppService { get; init; }
+        public required IWebTagService AppService { get; init; }
 
         public override void Configure()
         {

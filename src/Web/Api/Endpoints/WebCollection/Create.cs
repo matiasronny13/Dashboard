@@ -5,7 +5,7 @@ namespace Api.Endpoints.WebCollection
 {
     internal class Create: Endpoint<Create.RequestDto, Create.ResponseDto, Create.DtoMapper>
     {
-        public IWebTagService? AppService { get; init; }
+        public required IWebTagService AppService { get; init; }
 
         public override void Configure()
         {

@@ -5,7 +5,7 @@ namespace Api.Endpoints.WebCollection
 {
     internal class Get : Endpoint<Get.RequestDto, Get.ResponseDto, Get.DtoMapper>
     {
-        public IWebTagService? AppService { get; init; }
+        public required IWebTagService AppService { get; init; }
         public override void Configure()
         {
             Get("/collection/{Hash}");
@@ -28,7 +28,7 @@ namespace Api.Endpoints.WebCollection
         #region Internal Classes
         internal class RequestDto
         {
-            public string Hash { get; set; }
+            public string Hash { get; set; } = String.Empty;
         }
 
         internal class ResponseDto

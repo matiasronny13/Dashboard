@@ -5,7 +5,7 @@ namespace Api.Endpoints.WebCollection
 {
     internal class GetTags : EndpointWithoutRequest<IEnumerable<GetTags.ResponseDto>, GetTags.DtoMapper>
     {
-        public ITagKeyService? AppService { get; init; }
+        public required ITagKeyService AppService { get; init; }
         public override void Configure()
         {
             Get("/tags");
