@@ -1,5 +1,6 @@
 ﻿using Application.WebCollection;
 using FastEndpoints;
+using System.Text.Json.Serialization;
 
 namespace Api.Endpoints.WebCollection
 {
@@ -27,6 +28,7 @@ namespace Api.Endpoints.WebCollection
             }
 
             [QueryParam]
+            [BindFrom("id")]
             public string[] Ids { get; set; }
         }
         #endregion

@@ -1,5 +1,6 @@
 ﻿using Application.WebCollection;
 using FastEndpoints;
+using System.Transactions;
 
 namespace Api.Endpoints.WebCollection
 {
@@ -8,7 +9,7 @@ namespace Api.Endpoints.WebCollection
         public required IWebTagService AppService { get; init; }
         public override void Configure()
         {
-            Get("/collection/{Hash}");
+            Get("/collection/{hash}");
             AllowAnonymous();
         }
         public override async Task HandleAsync(Get.RequestDto request, CancellationToken ct)
@@ -28,6 +29,7 @@ namespace Api.Endpoints.WebCollection
         #region Internal Classes
         internal class RequestDto
         {
+            [BindFrom("hash")]
             public string Hash { get; set; } = String.Empty;
         }
 

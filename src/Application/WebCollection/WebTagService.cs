@@ -3,6 +3,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain.Entities;
 using Domain.Models;
+using LinqKit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Serilog;
@@ -11,11 +12,11 @@ namespace Application.WebCollection
 {
     public interface IWebTagService
     {
-        public void Create(WebTagDto input);
-        public void Update(WebTagDto input);
-        public Task Delete(string[] input);
-        public Task<WebTagDto?> GetAsync(string url);
-        public Task<IList<WebTagDto>> GetAllAsync();
+        void Create(WebTagDto input);
+        void Update(WebTagDto input);
+        Task Delete(string[] input);
+        Task<WebTagDto?> GetAsync(string url);
+        Task<IList<WebTagDto>> FindAsync(WebTagFilterDto filter);
     }
 
     internal class WebTagService: IWebTagService
@@ -38,6 +39,32 @@ namespace Application.WebCollection
 
             byte[] imageBytes = Convert.FromBase64String(base64Data);
             File.WriteAllBytes(fullFilePath, imageBytes);
+        }
+
+        public async Task<IList<WebTagDto>> FindAsync(WebTagFilterDto filter)
+        {
+            ExpressionStarter<WebTagDto> predicate = PredicateBuilder.New<WebTagDto>(true);
+            IQueryable<WebTagDto> query = _db.WebTags.ProjectTo<WebTagDto>(_mapper.ConfigurationProvider);
+
+            if (!string.IsNullOrEmpty(filter.Query))
+            {
+                string lowerCaseQuery = filter.Query.ToLower();
+                query = query.Where(a => a.Title.ToLower().Contains(lowerCaseQuery) || 
+                                         a.Url.ToLower().Contains(lowerCaseQuery) || 
+                                         a.Note.ToLower().Contains(lowerCaseQuery));
+            }
+
+            if (filter.TagFilter != null && filter.TagFilter.Count() > 0)
+            {
+                foreach (int tag in filter.TagFilter)
+                {
+                    predicate = predicate.Or(x => x.Tags.Contains(tag));
+                }
+
+                query = query.Where(predicate);
+            }
+
+            return await query.OrderBy(i => i.Title).ToListAsync();
         }
 
         public async Task<WebTagDto?> GetAsync(string hash)
