@@ -33,14 +33,6 @@ namespace Application.WebCollection
             _logger = logger;
         }
 
-        private void SaveThumbnail(string thumbnailData, string fullFilePath)
-        {
-            string base64Data = thumbnailData.Split(',')[1];
-
-            byte[] imageBytes = Convert.FromBase64String(base64Data);
-            File.WriteAllBytes(fullFilePath, imageBytes);
-        }
-
         public async Task<IList<WebTagDto>> FindAsync(WebTagFilterDto filter)
         {
             ExpressionStarter<WebTagDto> predicate = PredicateBuilder.New<WebTagDto>(true);
@@ -77,16 +69,12 @@ namespace Application.WebCollection
             WebTag inputData = _mapper.Map<WebTag>(input);
             _db.WebTags.Add(inputData);
             _db.SaveChanges();
-            
-            SaveThumbnail(input.ThumbnailData ?? String.Empty, Path.Combine(_options.WebCollection.ThumbnailPath, $"{input.Id}.png"));
         }
         public void Update(WebTagDto input)
         {
             WebTag inputData = _mapper.Map<WebTag>(input);
             _db.WebTags.Update(inputData);
             _db.SaveChanges();
-
-            SaveThumbnail(input.ThumbnailData ?? String.Empty, Path.Combine(_options.WebCollection.ThumbnailPath, $"{input.Id}.png"));
         }
 
         private async Task DeleteFileAsync(string filePath)
