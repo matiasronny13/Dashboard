@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEventHandler, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import ListView from '../../components/listView/ListView';
 import './webCollection.scss'
 
@@ -28,9 +28,10 @@ const WebCollection = () => {
         if (response.status == 200) return response.json()
       })
       .then(json => {
-        const map = new Map()
-        json.map((i:SiteInfo) => map.set(i.id, i.title))
-        setTagList(() => map)
+        const tagMap = new Map()
+        json = json.sort((a: { title: string; }, b: { title: string; }) => a.title > b.title ? 1 : -1)
+        json.map((i:SiteInfo) => tagMap.set(i.id, i.title))
+        setTagList(() => tagMap)
       })
     }, [])
 
@@ -62,7 +63,7 @@ const WebCollection = () => {
       }
       else 
       {
-        setFilter((prev:TFilter) => ({...prev, tagFilter: filter.tagFilter.filter(i => i != id)}))
+        setFilter((prev:TFilter) => ({...prev, tagFilter: filter.tagFilter.filter((i:number) => i != id)}))
       }
     }
 
