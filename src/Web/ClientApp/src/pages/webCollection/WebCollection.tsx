@@ -72,17 +72,17 @@ const WebCollection = () => {
     }
 
     const onClearAll = () => {
-      setFilter(x => ({...x, tagFilter: []}))
+      setFilter((x:TFilter) => ({...x, tagFilter: []}))
     }
 
     const onSelectAll = () => {
-      setFilter(x => ({...x, tagFilter: [...tagList.keys()]}))
+      setFilter((x:TFilter) => ({...x, tagFilter: [...tagList.keys()]}))
     }
 
     const onSingleToggle = (event: CheckboxChangeEvent) => {
-      setFilter(x => ({...x, 
-                       tagFilter: event.target.checked ? [] : [...filter.tagFilter], 
-                       single:event.target.checked}))
+      setFilter((x:TFilter) => ({...x, 
+                                tagFilter: event.target.checked ? [] : [...filter.tagFilter], 
+                                single:event.target.checked}))
     }
 
     return (
