@@ -72,7 +72,7 @@ const WebCollection = () => {
       <div className="webCollection">
         <div className='filterPanel'>
           <Link style={{padding: "15px 5px"}} to="..">
-            <img title='home' src="/home.svg"></img>
+            <img title='home' src="./home.svg"></img>
           </Link>
           <input className='queryInput' placeholder='Enter keyword' onChange={onFilterChange} value={filter.query}></input>
           {
