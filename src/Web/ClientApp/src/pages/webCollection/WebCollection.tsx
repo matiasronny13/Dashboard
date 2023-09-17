@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, MouseEventHandler, useEffect, useState } from 'react';
 import ListView from '../../components/listView/ListView';
 import './webCollection.scss'
 
@@ -18,7 +18,7 @@ export class SiteInfo {
 const WebCollection = () => {
     const [siteInfoList, setSiteinfoList] = useState([])
     const [tagList, setTagList] = useState(new Map())
-    const [filter, setFilter] = useState<TFilter|any>({})
+    const [filter, setFilter] = useState<TFilter|any>({ tagFilter: []})
 
     useEffect(() => { refreshListView() }, [filter])
 
@@ -55,12 +55,23 @@ const WebCollection = () => {
       setFilter((prev:TFilter) => ({...prev, query: event.target.value}))
     }
 
+    const toggleFilter = (id:number) => {
+      if(filter.tagFilter.indexOf(id) == -1)
+      {
+        setFilter((prev:TFilter) => ({...prev, tagFilter: [...filter.tagFilter, id]}))
+      }
+      else 
+      {
+        setFilter((prev:TFilter) => ({...prev, tagFilter: filter.tagFilter.filter(i => i != id)}))
+      }
+    }
+
     return (
       <div className="webCollection">
-        <div className='tagSelector'>
-          <input placeholder='Enter keyword' onChange={onFilterChange} value={filter.query}></input>
+        <div className='filterPanel'>
+          <input className='queryInput' placeholder='Enter keyword' onChange={onFilterChange} value={filter.query}></input>
           {
-            [...tagList].map((item) => (<div>{item[0] + ' - ' + item[1]}</div>))
+            [...tagList].map((item) => (<div className={`tagButton ${filter.tagFilter.indexOf(item[0]) != -1 ? 'selected' : ''}`} onClick={() => toggleFilter(item[0])}>{item[1]}</div>))
           }
         </div>
         <ListView itemList={siteInfoList} tagList={tagList} onItemDelete={onItemDelete}></ListView>
