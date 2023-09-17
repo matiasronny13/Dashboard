@@ -31,8 +31,7 @@ const ListView = ({itemList, tagList, onItemDelete}: TProps) => {
                     </div>               
                 </div>
                 <div className='commandBar'>
-                    <div onClick={(e) => { e.preventDefault(); onItemDelete(item.id);}}>Delete</div>
-                    <div>Edit</div>
+                    <img title='delete' onClick={(e) => { e.preventDefault(); onItemDelete(item.id);}} src={`${import.meta.env.BASE_URL}/delete.svg`}></img>
                 </div>
             </a>))}
         </div>
