@@ -2,6 +2,8 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import ListView from '../../components/listView/ListView';
 import './webCollection.scss'
 import { Link } from 'react-router-dom';
+import { Button, Checkbox } from 'antd';
+import { CheckboxChangeEvent } from 'antd/es/checkbox';
 
 type TFilter = {
   query: string;
@@ -60,12 +62,27 @@ const WebCollection = () => {
     const toggleFilter = (id:number) => {
       if(filter.tagFilter.indexOf(id) == -1)
       {
-        setFilter((prev:TFilter) => ({...prev, tagFilter: [...filter.tagFilter, id]}))
+        const selectedIds = filter.single ? [id] : [...filter.tagFilter, id]
+        setFilter((prev:TFilter) => ({...prev, tagFilter: selectedIds}))
       }
       else 
       {
         setFilter((prev:TFilter) => ({...prev, tagFilter: filter.tagFilter.filter((i:number) => i != id)}))
       }
+    }
+
+    const onClearAll = () => {
+      setFilter(x => ({...x, tagFilter: []}))
+    }
+
+    const onSelectAll = () => {
+      setFilter(x => ({...x, tagFilter: [...tagList.keys()]}))
+    }
+
+    const onSingleToggle = (event: CheckboxChangeEvent) => {
+      setFilter(x => ({...x, 
+                       tagFilter: event.target.checked ? [] : [...filter.tagFilter], 
+                       single:event.target.checked}))
     }
 
     return (
@@ -75,6 +92,13 @@ const WebCollection = () => {
             <img title='home' src="./home.svg"></img>
           </Link>
           <input className='queryInput' placeholder='Enter keyword' onChange={onFilterChange} value={filter.query}></input>
+          <div className='tagOption'>
+            <div>
+              <Button onClick={onClearAll}>Clear All</Button>
+              <Button onClick={onSelectAll}>Select All</Button>
+            </div>
+            <div><Checkbox style={{color: 'white'}} onChange={onSingleToggle}>Single Select</Checkbox></div>
+          </div>
           {
             [...tagList].map((item) => (<div className={`tagButton ${filter.tagFilter.indexOf(item[0]) != -1 ? 'selected' : ''}`} onClick={() => toggleFilter(item[0])}>{item[1]}</div>))
           }
