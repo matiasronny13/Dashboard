@@ -9,6 +9,7 @@ import Footer from './components/footer/Footer';
 const queryClient = new QueryClient();
 const Home = lazy(() => import("./pages/home/Home"));
 const Rss = lazy(() => import("./pages/rss/Rss"));
+const WebCollection = lazy(() => import("./pages/webCollection/WebCollection"));
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
@@ -46,6 +47,10 @@ function App() {
           element: (<Suspense fallback={<>Loading...</>}><Rss /></Suspense>)
         }
       ],
+    },
+    {
+      path: "/webcollection",
+      element: (<Suspense fallback={<>Loading...</>}><WebCollection /></Suspense>)
     }
   ], { basename: import.meta.env.BASE_URL });
 

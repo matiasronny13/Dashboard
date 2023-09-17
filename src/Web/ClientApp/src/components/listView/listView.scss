@@ -1,0 +1,69 @@
+.listView {
+    .listBox {
+
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .listItem {
+            background-color: rgb(34, 42, 58);
+            padding: 10px;
+            border-radius: 10px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            .commandBar {
+                position: absolute;                
+                bottom: 10px;
+                right: 10px;
+                display: flex;
+                gap: 10px                
+            }
+
+            .mainPanel {
+
+                display: flex;
+                gap: 15px;
+
+                .itemThumbnail {
+                    width: 100px;
+                }    
+
+                .detailPanel {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    font-size: smaller;
+
+                    .itemNote, .itemUrl {
+                        color: rgb(197, 197, 197);
+                    }
+        
+                    .tagPlaceholder {
+                        display: flex;
+                        gap: 10px;
+        
+                        div {
+                            background-color: rgb(141, 184, 240);
+                            color: black;
+                            padding: 1px 7px;
+                            border-radius: 8px;
+                        }
+                    }
+                }
+            }
+            .itemTitle {
+                font-size: medium;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+
+                .itemFavicon {
+                    height: 16px;
+                }
+            }
+        }
+    }    
+}
