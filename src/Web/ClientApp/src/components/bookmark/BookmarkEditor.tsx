@@ -44,7 +44,7 @@ const BookmarkEditor = () => {
       gridApiRef.current.setEditCellValue({
         id: variables.item.id,
         field: 'icon',
-        value: `bookmark/${variables.data.get('fileName')}`,
+        value: variables.data.get('fileName'),
       });
     },
     onError: (_error, variables) => {
@@ -60,11 +60,11 @@ const BookmarkEditor = () => {
       width: 170,
       editable: true,
       renderCell: (params) => {
-        return <><img src={params.row.icon || "/noavatar.png"} alt="" /></>
+        return <><img src={`/dashboard/bookmark/${params.row.icon}` || "/dashboard/noavatar.png"} alt="" /></>
       },
       renderEditCell: (params) => {
         return <>
-          {!mutation.isLoading && <img className='icon' src={params.row.icon || "/noavatar.png"} alt="" onClick={handleClick}/>}
+          {!mutation.isLoading && <img className='icon' src={`/dashboard/bookmark/${params.row.icon}` || "/dashboard/noavatar.png"} alt="" onClick={handleClick}/>}
           {mutation.isLoading && <CircularProgress size={25} />}
           <Popover id={id} open={open} anchorEl={anchorEl} onClose={handleClose} anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}>
             <DownloadDialog data={params.row} onClose={handleClose} onSubmit={(data) => mutation.mutate({item: params.row, data: data})}/>

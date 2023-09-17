@@ -23,35 +23,35 @@ export const searchEngines = [
   {
     id: 1,
     name: "Google",
-    icon: "/search/google.ico",
+    icon: "google.ico",
     url: "https://www.google.com/search?q=",
     isDefault: true
   },
   {
     id: 2,
     name: "Searx",
-    icon: "/search/searx.png",
+    icon: "searx.png",
     url: "https://searx.be/?q=",
     isDefault: false
   },
   {
     id: 3,
     name: "Start Page",
-    icon: "/search/startpage.ico",
+    icon: "startpage.ico",
     url: "https://www.startpage.com/do/dsearch?query=",
     isDefault: false
   },
   {
     id: 4,
     name: "DuckDuckGo",
-    icon: "/search/duckduckgo.ico",
+    icon: "duckduckgo.ico",
     url: "https://duckduckgo.com/?ia=web&q=",
     isDefault: false
   },
   {
     id: 5,
     name: "Brave",
-    icon: "/search/brave.png",
+    icon: "brave.png",
     url: "https://search.brave.com/search?source=web&q=",
     isDefault: false
   }

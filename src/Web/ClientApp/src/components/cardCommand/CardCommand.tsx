@@ -24,9 +24,9 @@ const CardCommand = ({cardTitle, isEdit, onSaveHandler, onCancelHandler, onEditH
         <div className="cardCommand">
             <div className='title'>{cardTitle}</div>
             <div className='commands'>
-                {isEdit && <img alt="" src="bx-check.svg" onClick={onSaveHandler}></img>}
-                {isEdit && <img alt="" src="bx-x.svg" onClick={onCancelHandler}></img>}
-                {!isEdit && <img alt="" src="bxs-edit.svg" onClick={onEditHandler}></img>}
+                {isEdit && <img alt="" src="/dashboard/bx-check.svg" onClick={onSaveHandler}></img>}
+                {isEdit && <img alt="" src="/dashboard/bx-x.svg" onClick={onCancelHandler}></img>}
+                {!isEdit && <img alt="" src="/dashboard/bxs-edit.svg" onClick={onEditHandler}></img>}
                 {/* <img alt="" src="bx-cog.svg" onClick={handleClick}></img>
                 <Menu id="engine-menu" 
                         anchorEl={anchorEl} open={open} onClose={() => { handleClose(); }}

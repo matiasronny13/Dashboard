@@ -53,17 +53,17 @@ const SearchBar = () => {
   return (
     <div className="searchBar">
       <div className="engineSelector">
-        <img className="searchEngineIcon" src={`./${currentSearchEngine?.icon}`} alt="" onClick={handleClick}></img>
+        <img className="searchEngineIcon" src={`/dashboard/search/${currentSearchEngine?.icon}`} alt="" onClick={handleClick}></img>
       </div>
       <input title="search" type="text" ref={searchQuery} onKeyDown={onSearchKeyDown}/>    
-      <img src="search/search.png" alt="" onClick={onSearchClick}></img>
+      <img src="/dashboard/search/search.png" alt="" onClick={onSearchClick}></img>
 
       <Menu id="engine-menu" anchorEl={anchorEl} open={open} onClose={() => { handleClose(null); }}>          
       {
         searchEngines.map(item => (
           <MenuItem key={item.id} onClick={() => { handleClose(item); }} selected={(currentSearchEngine ? currentSearchEngine.id == item.id : false)}>
             <ListItemIcon>
-              <img className="searchEngineIcon" src={`./${item.icon}`} alt="" />
+              <img className="searchEngineIcon" src={`/dashboard/search/${item.icon}`} alt="" />
             </ListItemIcon>
             <ListItemText>{item.name}</ListItemText>
           </MenuItem>

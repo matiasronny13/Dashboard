@@ -12,13 +12,13 @@ const ListView = ({itemList, tagList, onItemDelete}: TProps) => {
         <div className='listBox'>
             {itemList.map(item => (<a className='listItem' href={item.url} target="_blank">
                 <div className='itemTitle'>
-                    <img className='itemFavicon' title={item.id} src={`./thumbnail/${item.id}.ico`}></img> 
+                    <img className='itemFavicon' title={item.id} src={`/dashboard/thumbnail/${item.id}.ico`}></img> 
                     <span>{item.title}</span>
                 </div>
                 <div className='mainPanel'>
                     {/* <img title={item.id} src="chrome-extension://pebphngoiaghbmhhipdkacbeflddpacb/_favicon/?pageUrl=https://www.ritsumei.ac.jp/~akitaoka/index-e.html&size=32"></img> this approach rely on cache*/ }
           
-                    <img title={item.id} className='itemThumbnail' src={`./thumbnail/${item.id}.png`}></img>
+                    <img title={item.id} className='itemThumbnail' src={`/dashboard/thumbnail/${item.id}.png`}></img>
                     <div className='detailPanel'>
                         <div className='tagPlaceholder'>
                             {item.tags?.map(tag => (<div>{tagList.get(tag)}</div>))}

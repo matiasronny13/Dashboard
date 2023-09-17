@@ -89,7 +89,7 @@ const DataTable = (props: TProps) => {
       return (
         <div className="action">
           <div className="delete" onClick={() => handleDelete(params.row.id)}>
-            <img src="delete.svg" alt="" />
+            <img src="/dashboard/delete.svg" alt="" />
           </div>
         </div>
       );

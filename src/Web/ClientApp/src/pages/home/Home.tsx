@@ -12,7 +12,7 @@ const Home = () => {
         </BookmarkProvider>
       </div>
       <div className="card2">
-        <img title="hiragana" src="Hiragana.png" />
+        <img title="hiragana" src="/dashboard/Hiragana.png" />
       </div>
       <div className="card">
         <TextEditor storageKey="note1"/>
