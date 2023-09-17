@@ -1,10 +1,13 @@
+import { Link } from "react-router-dom";
 import SearchBar from "../searchBar/SearchBar";
 import "./navbar.scss";
 
 const Navbar = () => {
   return (
     <div className="navbar">
-      <div className="left"></div>
+      <div className="left">
+        <Link to="./webcollection">Collection</Link>
+      </div>
       <div className="middle"><SearchBar /></div>
       <div className="right">
         <img src="app.svg" alt="" className="icon hide-on-mobile" />

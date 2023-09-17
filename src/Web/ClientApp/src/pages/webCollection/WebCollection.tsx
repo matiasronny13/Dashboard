@@ -1,6 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import ListView from '../../components/listView/ListView';
 import './webCollection.scss'
+import { Link } from 'react-router-dom';
 
 type TFilter = {
   query: string;
@@ -70,6 +71,9 @@ const WebCollection = () => {
     return (
       <div className="webCollection">
         <div className='filterPanel'>
+          <Link style={{padding: "15px 5px"}} to="..">
+            <img title='home' src="/home.svg"></img>
+          </Link>
           <input className='queryInput' placeholder='Enter keyword' onChange={onFilterChange} value={filter.query}></input>
           {
             [...tagList].map((item) => (<div className={`tagButton ${filter.tagFilter.indexOf(item[0]) != -1 ? 'selected' : ''}`} onClick={() => toggleFilter(item[0])}>{item[1]}</div>))
