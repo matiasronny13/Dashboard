@@ -6,17 +6,17 @@ const Navbar = () => {
   return (
     <div className="navbar">
       <div className="left">
-        <Link to="./webcollection">Collection</Link>
+        <Link to={`/webcollection`}>Web Collection</Link>
       </div>
       <div className="middle"><SearchBar /></div>
       <div className="right">
-        <img src="/dashboard/app.svg" alt="" className="icon hide-on-mobile" />
+        <img src={`${import.meta.env.BASE_URL}/app.svg`} alt="" className="icon hide-on-mobile" />
         <div className="notification hide-on-mobile">
-          <img src="/dashboard/notifications.svg" alt="" className="icon"/>
+          <img src={`${import.meta.env.BASE_URL}/notifications.svg`} alt="" className="icon"/>
           <span className="icon">0</span>
         </div>
-        <img src="/dashboard/profile.svg" alt="" className="icon hide-on-mobile" />
-        <img src="/dashboard/settings.svg" alt="" className="icon hide-on-mobile" />
+        <img src={`${import.meta.env.BASE_URL}/profile.svg`} alt="" className="icon hide-on-mobile" />
+        <img src={`${import.meta.env.BASE_URL}/settings.svg`} alt="" className="icon hide-on-mobile" />
       </div>
     </div>
   );
