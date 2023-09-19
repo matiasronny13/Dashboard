@@ -21,7 +21,7 @@ export class SiteInfo {
 const WebCollection = () => {
     const [siteInfoList, setSiteinfoList] = useState([])
     const [tagList, setTagList] = useState(new Map())
-    const [filter, setFilter] = useState<TFilter|any>({ tagFilter: []})
+    const [filter, setFilter] = useState<TFilter|any>({ isSingle: true, tagFilter: []})
 
     useEffect(() => { refreshListView() }, [filter])
 
@@ -62,7 +62,7 @@ const WebCollection = () => {
     const toggleFilter = (id:number) => {
       if(filter.tagFilter.indexOf(id) == -1)
       {
-        const selectedIds = filter.single ? [id] : [...filter.tagFilter, id]
+        const selectedIds = filter.isSingle ? [id] : [...filter.tagFilter, id]
         setFilter((prev:TFilter) => ({...prev, tagFilter: selectedIds}))
       }
       else 
@@ -82,7 +82,7 @@ const WebCollection = () => {
     const onSingleToggle = (event: CheckboxChangeEvent) => {
       setFilter((x:TFilter) => ({...x, 
                                 tagFilter: event.target.checked ? [] : [...filter.tagFilter], 
-                                single:event.target.checked}))
+                                isSingle:event.target.checked}))
     }
 
     return (
@@ -94,10 +94,10 @@ const WebCollection = () => {
           <input className='queryInput' placeholder='Enter keyword' onChange={onFilterChange} value={filter.query}></input>
           <div className='tagOption'>
             <div>
-              <Button onClick={onClearAll}>Clear All</Button>
               <Button onClick={onSelectAll}>Select All</Button>
+              <Button onClick={onClearAll}>Clear All</Button>
             </div>
-            <div><Checkbox style={{color: 'white'}} onChange={onSingleToggle}>Single Select</Checkbox></div>
+            <div><Checkbox style={{color: 'white'}} onChange={onSingleToggle} checked={filter.isSingle}>Single Select</Checkbox></div>
           </div>
           {
             [...tagList].map((item) => (<div className={`tagButton ${filter.tagFilter.indexOf(item[0]) != -1 ? 'selected' : ''}`} onClick={() => toggleFilter(item[0])}>{item[1]}</div>))
