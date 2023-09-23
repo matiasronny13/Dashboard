@@ -10,34 +10,44 @@
         font-size: large;
     }
 
-    .tableGrid {
-        display: grid;
-        grid-template-columns: repeat(4, minmax(60px, 120px));
-        grid-gap: 5px;
-        width: 50%;
-
-        header {
-            text-align: center;
-        }
-
-        input {
-            background-color: rgb(213, 223, 255);
-            padding: 5px;
-            width: 100%;
-        }
-
-        input.changed {
-            background-color: rgb(248, 217, 182);
-        }
-
-        .rowAction {
-            padding: 0px 15px;
-        }
-    }
-
-    .commandBar {
+    .content {
         display: flex;
-        gap: 15px;
-        align-items: center;
+
+        .mainContent {
+
+            .tableGrid {
+                display: grid;
+                grid-template-columns: repeat(4, minmax(100px, 120px));
+                grid-gap: 5px;
+        
+                header {
+                    text-align: center;
+                }
+        
+                input {
+                    background-color: rgb(213, 223, 255);
+                    padding: 5px;
+                    width: 100%;
+                }
+        
+                input.changed {
+                    background-color: rgb(248, 217, 182);
+                }
+        
+                .rowAction {
+                    padding: 0px 15px;
+                }
+            }
+        
+            .commandBar {
+                display: flex;
+                gap: 25px;
+                align-items: center;
+            }
+        }
+
+        .filler {
+            flex-grow: 1;
+        }
     }
 }

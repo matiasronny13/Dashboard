@@ -27,9 +27,11 @@ const StockAlert = () => {
   const [alerts, setAlerts] = useState<TAlert[]>([]);
   const [api, contextHolder] = notification.useNotification();
   const [errors, setErrors] = useState<string[]>([])
+  const [timestamp, setTimestamp] = useState<string>("")
 
   useEffect(() => {
     getAlerts();
+    GetTimestamp();
   }, []);
 
   useEffect(() => {
@@ -39,6 +41,14 @@ const StockAlert = () => {
       setErrors([])
     }
   },[errors])
+
+  const GetTimestamp = async () => {
+    const response = await supabase.from("Alerts_History").select("value").eq("id", "last_execution")
+    if(response.data)
+    {
+      setTimestamp(() => response.data[0].value)
+    }
+  }
 
   async function getAlerts() {
     const response: PostgrestResponse<TAlert> = await supabase
@@ -109,24 +119,30 @@ const StockAlert = () => {
             <img title='home' src="./home.svg"></img>
         </Link>
       </div>
-      <div className="tableGrid">
-          <header>Symbol</header>
-          <header>Operator</header>
-          <header>Price</header>
-          <header></header>
-        {
-          alerts?.map((a) => (a.status != RowStatus.Deleted && 
-          <Fragment key={a.id}>
-            <div><input className={setRowColor(a.status)} title="symbol" value={a.symbol} onChange={(e) => editValue(a.id, {symbol: e.target.value})}></input></div>
-            <div><input className={setRowColor(a.status)} title="operator" value={a.operator} onChange={(e) => editValue(a.id, {operator: e.target.value})}></input></div>
-            <div><input className={setRowColor(a.status)} title="price" value={a.price} onChange={(e) => editValue(a.id, {price: e.target.value})}></input></div>
-            <div className="rowAction"><Typography.Link onClick={() => onDelete(a.id)}>Delete</Typography.Link></div>
-          </Fragment>))
-        }
-      </div>
-      <div className="commandBar">
-        <Typography.Link onClick={onAddRow}>Add</Typography.Link>
-        <Typography.Link onClick={onSave}>Save</Typography.Link>
+      <div className="content">
+        <div className="mainContent">
+          <div className="tableGrid">
+              <header>Symbol</header>
+              <header>Operator</header>
+              <header>Price</header>
+              <header></header>
+            {
+              alerts?.map((a) => (a.status != RowStatus.Deleted && 
+              <Fragment key={a.id}>
+                <div><input className={setRowColor(a.status)} title="symbol" value={a.symbol} onChange={(e) => editValue(a.id, {symbol: e.target.value})}></input></div>
+                <div><input className={setRowColor(a.status)} title="operator" value={a.operator} onChange={(e) => editValue(a.id, {operator: e.target.value})}></input></div>
+                <div><input className={setRowColor(a.status)} title="price" value={a.price} onChange={(e) => editValue(a.id, {price: e.target.value})}></input></div>
+                <div className="rowAction"><Typography.Link onClick={() => onDelete(a.id)}>Delete</Typography.Link></div>
+              </Fragment>))
+            }
+          </div>
+          <div className="commandBar">
+            <Typography.Link onClick={onAddRow}>Add</Typography.Link>
+            <Typography.Link onClick={onSave}>Save</Typography.Link>
+          </div>
+          <div style={{paddingTop: "20px"}}>{`Last execution: ${timestamp}`}</div>
+        </div>
+        <div className="filler"></div>
       </div>
     </div>
   );
