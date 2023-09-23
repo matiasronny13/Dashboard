@@ -7,6 +7,7 @@ const Navbar = () => {
     <div className="navbar">
       <div className="left">
         <Link to={`/webcollection`}>Web Collection</Link>
+        <Link to={`/stockAlert`}>Stock Alerts</Link>
       </div>
       <div className="middle"><SearchBar /></div>
       <div className="right">

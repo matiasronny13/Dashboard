@@ -10,6 +10,7 @@ const queryClient = new QueryClient();
 const Home = lazy(() => import("./pages/home/Home"));
 const Rss = lazy(() => import("./pages/rss/Rss"));
 const WebCollection = lazy(() => import("./pages/webCollection/WebCollection"));
+const StockAlert = lazy(() => import("./pages/stockAlert/StockAlert"));
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
@@ -51,6 +52,10 @@ function App() {
     {
       path: "/webcollection",
       element: (<Suspense fallback={<>Loading...</>}><WebCollection /></Suspense>)
+    },
+    {
+      path: "/stockAlert",
+      element: (<Suspense fallback={<>Loading...</>}><StockAlert /></Suspense>)
     }
   ], { basename: import.meta.env.BASE_URL });
 

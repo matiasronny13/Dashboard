@@ -7,6 +7,11 @@
   grid-template-columns: repeat(3, 1fr);
   align-items: center;
   
+  .left {
+    display: flex;
+    gap: 20px;
+  }
+
   .middle {
     display: flex;
     justify-content: center;
