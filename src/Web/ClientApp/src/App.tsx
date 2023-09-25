@@ -42,21 +42,17 @@ function App() {
         {
           path: "/",
           element: (<Suspense fallback={<>Loading...</>}><Home /></Suspense>)
+        },        
+        {
+          path: "/webcollection",
+          element: (<Suspense fallback={<>Loading...</>}><WebCollection /></Suspense>)
         },
         {
-          path: "/rss",
-          element: (<Suspense fallback={<>Loading...</>}><Rss /></Suspense>)
+          path: "/stockAlert",
+          element: (<Suspense fallback={<>Loading...</>}><StockAlert /></Suspense>)
         }
-      ],
+      ]
     },
-    {
-      path: "/webcollection",
-      element: (<Suspense fallback={<>Loading...</>}><WebCollection /></Suspense>)
-    },
-    {
-      path: "/stockAlert",
-      element: (<Suspense fallback={<>Loading...</>}><StockAlert /></Suspense>)
-    }
   ], { basename: import.meta.env.BASE_URL });
 
   return <RouterProvider router={router} />;

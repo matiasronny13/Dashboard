@@ -88,11 +88,6 @@ const WebCollection = () => {
     return (
       <div className="webCollection">
         <div className='filterPanel'>
-          <div>
-            <Link style={{padding: "15px 5px"}} to="/">
-              <img title='home' src="./home.svg"></img>
-            </Link>            
-          </div>
           <input className='queryInput' placeholder='Enter keyword' onChange={onFilterChange} value={filter.query}></input>
           <div className='tagOption'>
             <div>

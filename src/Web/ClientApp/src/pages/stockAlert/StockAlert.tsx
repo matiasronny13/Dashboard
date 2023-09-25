@@ -114,11 +114,6 @@ const StockAlert = () => {
   return (
     <div className="stockAlert">
       {contextHolder}
-      <div>
-        <Link style={{padding: "15px 5px"}} to="/">
-            <img title='home' src="./home.svg"></img>
-        </Link>
-      </div>
       <div className="content">
         <div className="mainContent">
           <div className="tableGrid">
