@@ -22,7 +22,7 @@ const DownloadDialog = (props: TProps) => {
                 <label>File Name</label>
                 <input title='FileName' name="fileName" type='text' defaultValue={props.data.icon}></input>
                 <label>Url</label>
-                <input title='Url' name="url" type='text' ></input>           
+                <input title='Url' name="url" type='text' defaultValue={(props.data.url) ? `https://www.google.com/s2/favicons?domain=${props.data.url}&sz=48` : ""}></input>
                 <Button type="submit">Update</Button>
             </form> 
         </div>
