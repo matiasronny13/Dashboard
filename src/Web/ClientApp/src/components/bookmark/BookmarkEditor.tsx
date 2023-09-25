@@ -60,7 +60,7 @@ const BookmarkEditor = () => {
       width: 170,
       editable: true,
       renderCell: (params) => {
-        return <><img src={`/dashboard/bookmark/${params.row.icon}` || "/dashboard/noavatar.png"} alt="" /></>
+        return <><img src={(params.row.icon) ? `/dashboard/bookmark/${params.row.icon}` : "/dashboard/noavatar.png"} alt="" /></>
       },
       renderEditCell: (params) => {
         return <>
