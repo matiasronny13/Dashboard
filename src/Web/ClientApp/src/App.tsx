@@ -42,7 +42,11 @@ function App() {
         {
           path: "/",
           element: (<Suspense fallback={<>Loading...</>}><Home /></Suspense>)
-        },        
+        },  
+        {
+          path: "/rss",
+          element: (<Suspense fallback={<>Loading...</>}><Rss /></Suspense>)
+        },      
         {
           path: "/webcollection",
           element: (<Suspense fallback={<>Loading...</>}><WebCollection /></Suspense>)

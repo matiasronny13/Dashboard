@@ -36,11 +36,11 @@ const Navbar = () => {
       </div>
       <Popover id={id} open={open} anchorEl={anchorEl} onClose={handleClose} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} transformOrigin={{ vertical: 'top', horizontal: 'right' }}>
         <div className="appMenu">
-          <Link to="/webcollection">
+          <Link to="/webcollection" onClick={handleClose}>
             <img src={`${import.meta.env.BASE_URL}/web-collector.png`} alt=""></img>
             <Typography>Web collector</Typography>
           </Link>
-          <Link to="/stockAlert">
+          <Link to="/stockAlert"  onClick={handleClose}>
             <img src={`${import.meta.env.BASE_URL}/stock-alert.png`} alt=""></img>
             <Typography>Stock Alert</Typography>
           </Link>

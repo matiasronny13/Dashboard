@@ -1,7 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import ListView from '../../components/listView/ListView';
 import './webCollection.scss'
-import { Link } from 'react-router-dom';
 import { Button, Checkbox } from 'antd';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 

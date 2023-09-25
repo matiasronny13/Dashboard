@@ -3,7 +3,6 @@ import { Typography, notification } from "antd";
 import { Fragment, useEffect, useState } from "react";
 import { PostgrestResponse, createClient } from "@supabase/supabase-js";
 import { supabaseSettings } from "../../data";
-import { Link } from "react-router-dom";
 
 const supabase = createClient(supabaseSettings.url, supabaseSettings.secret);
 
