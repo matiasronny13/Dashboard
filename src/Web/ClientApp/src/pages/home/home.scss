@@ -27,18 +27,4 @@
     border: 2px solid $soft-bg;
     //height: $box-height;
   }
-
-  .card2 {      
-    grid-column: span 2;
-    grid-row: span 3;
-    padding: 10px;
-    border-radius: 10px;
-    border: 2px solid $soft-bg;
-    
-    img {
-      width: 940px;
-      height: 1454px;
-      object-fit: fill;
-    }
-  }
 }

@@ -11,12 +11,15 @@ const Home = () => {
           <Bookmark storageKey="bookmark"/>
         </BookmarkProvider>
       </div>
-      <div className="card2">
-        <img title="hiragana" src="/dashboard/Hiragana.png" />
-      </div>
+      <div></div>
       <div className="card">
         <TextEditor storageKey="note1"/>
-      </div>
+      </div>      
+      <div></div>
+      <div></div>      
+      <div className="card">
+        <TextEditor storageKey="note2"/>
+      </div>     
     </div>
   );
 };
