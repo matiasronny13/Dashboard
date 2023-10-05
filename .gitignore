@@ -364,3 +364,4 @@ FodyWeavers.xsd
 src/Web/ClientApp/public/bookmark/*
 src/Web/ClientApp/public/thumbnail/*
 src/Web/ClientApp/public/search/*
+src/Web/ClientApp/src/supabase.local.ts

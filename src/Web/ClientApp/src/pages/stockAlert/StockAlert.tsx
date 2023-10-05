@@ -2,7 +2,7 @@ import "./stockAlert.scss";
 import { Typography, notification } from "antd";
 import { Fragment, useEffect, useState } from "react";
 import { PostgrestResponse, createClient } from "@supabase/supabase-js";
-import { supabaseSettings } from "../../data";
+import { supabaseSettings } from "../../supabase.local";
 
 const supabase = createClient(supabaseSettings.url, supabaseSettings.secret);
 
