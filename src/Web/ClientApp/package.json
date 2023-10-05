@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "deploy": "tsc && vite build && xcopy .\\dist D:\\Server\\nginx\\html\\dashboard /E /H /C /I /exclude:deploy.exclude",
+    "deploy": "tsc && vite build && xcopy .\\dist D:\\Server\\nginx\\html\\dashboard /E /H /C /I /exclude:deploy.exclude /Y",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
