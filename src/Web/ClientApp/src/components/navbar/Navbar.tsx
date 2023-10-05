@@ -44,6 +44,10 @@ const Navbar = () => {
             <img src={`${import.meta.env.BASE_URL}/stock-alert.png`} alt=""></img>
             <Typography>Stock Alert</Typography>
           </Link>
+          <Link to="http://localhost/feedreader"  onClick={handleClose}>
+            <img src={`${import.meta.env.BASE_URL}/feedreader.ico`} alt=""></img>
+            <Typography>Feed Reader</Typography>
+          </Link>
         </div>
       </Popover>
     </div>

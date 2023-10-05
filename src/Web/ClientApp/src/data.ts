@@ -1,6 +1,6 @@
 export const supabaseSettings = {
   url: "https://qkpdfiiugdgnshxirxkb.supabase.co",
-  secret: <SUPABASE ANON KEY>
+  secret: "<SUPABASE ANON KEY>"
 }
 
 export const menu = [
