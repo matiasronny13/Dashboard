@@ -1,0 +1,41 @@
+@import "../../styles/variables.scss";
+
+.searchBar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid none;
+  background-color: white;
+  border-radius: 10px;
+  max-width: max-content;
+  padding: 5px 10px 5px 10px;
+
+  .engineSelector {
+    border-right: 1px solid cadetblue;
+    padding-right: 5px;
+    cursor: pointer;
+  }
+
+  input {
+    width: 300px;
+    min-height: 30px;
+    padding: 5px;
+    outline-style: none;
+    border-style: none;
+    font-size: large;
+    color: $dark-color;
+  }
+
+  img {
+    cursor: pointer;
+  }
+}
+
+.searchEngineIcon
+{
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+}

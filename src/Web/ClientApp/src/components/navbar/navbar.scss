@@ -1,0 +1,86 @@
+@import "../../styles/responsive.scss";
+@import "../../styles/variables.scss";
+
+.navbar {
+  padding: 20px 20px 0px 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  
+  .left {
+    display: flex;
+    gap: 20px;
+  }
+
+  .middle {
+    display: flex;
+    justify-content: center;
+  }
+
+  .right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px;
+
+    .icon{
+      cursor: pointer;
+    }
+
+    .hide-on-mobile {
+      @include sm{
+        display: none;
+      }
+    }
+
+    .notification {
+      position: relative;
+
+      span {
+        background-color: red;
+        color: $main-color;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+.appMenu {
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 220px;
+  height: 300px;
+  justify-content: start;
+  align-content: flex-start;
+
+  a {
+
+    text-align: center;
+    //border: 1px solid white;
+    padding: 10px;
+    width: 80px;
+    height: 80px;
+
+    img {
+      width: 32px;
+      height: 32px;
+      object-fit: cover;
+    }
+
+    p {
+      font-size: 12px;
+      color: $soft-color;    
+    }
+  }
+}
