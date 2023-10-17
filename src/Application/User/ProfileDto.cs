@@ -16,9 +16,6 @@ namespace Application.User
 
         public DateTime? CreatedDate { get; set; }
 
-        public virtual ICollection<RssGroup> RssGroups { get; set; } = new List<RssGroup>();
-
-
         private class Mapping : Profile
         {
             public Mapping()

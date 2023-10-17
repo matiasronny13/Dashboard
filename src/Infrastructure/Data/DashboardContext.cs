@@ -13,12 +13,6 @@ public partial class DashboardContext : DbContext, IDashboardContext
     {
     }
 
-    public virtual DbSet<Rss> Rsses { get; set; }
-
-    public virtual DbSet<RssFolder> RssFolders { get; set; }
-
-    public virtual DbSet<RssItem> RssItems { get; set; }
-
     public virtual DbSet<TagKey> TagKeys { get; set; }
 
     public virtual DbSet<UserProfile> UserProfiles { get; set; }
@@ -28,82 +22,6 @@ public partial class DashboardContext : DbContext, IDashboardContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasPostgresExtension("uuid-ossp");
-
-        modelBuilder.Entity<Rss>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("rss_pkey");
-
-            entity.ToTable("rss");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("now()")
-                .HasColumnName("created_at");
-            entity.Property(e => e.Description)
-                .HasColumnType("character varying")
-                .HasColumnName("description");
-            entity.Property(e => e.FolderId).HasColumnName("folder_id");
-            entity.Property(e => e.IsDisabled).HasColumnName("is_disabled");
-            entity.Property(e => e.LastBuildDate).HasColumnName("last_build_date");
-            entity.Property(e => e.Schema)
-                .HasColumnType("character varying")
-                .HasColumnName("schema");
-            entity.Property(e => e.SchemaVersion)
-                .HasColumnType("character varying")
-                .HasColumnName("schema_version");
-            entity.Property(e => e.Title)
-                .HasColumnType("character varying")
-                .HasColumnName("title");
-            entity.Property(e => e.UpdatedAt)
-                .HasDefaultValueSql("now()")
-                .HasColumnName("updated_at");
-            entity.Property(e => e.Url)
-                .HasColumnType("character varying")
-                .HasColumnName("url");
-        });
-
-        modelBuilder.Entity<RssFolder>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("rss_folder_pkey");
-
-            entity.ToTable("rss_folder");
-
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("now()")
-                .HasColumnName("created_at");
-            entity.Property(e => e.Name)
-                .HasColumnType("character varying")
-                .HasColumnName("name");
-            entity.Property(e => e.ParentId).HasColumnName("parent_id");
-        });
-
-        modelBuilder.Entity<RssItem>(entity =>
-        {
-            entity.HasKey(e => e.Guid).HasName("rss_item_pkey");
-
-            entity.ToTable("rss_item");
-
-            entity.Property(e => e.Guid)
-                .HasColumnType("character varying")
-                .HasColumnName("guid");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("now()")
-                .HasColumnName("created_at");
-            entity.Property(e => e.Description)
-                .HasColumnType("character varying")
-                .HasColumnName("description");
-            entity.Property(e => e.Link)
-                .HasColumnType("character varying")
-                .HasColumnName("link");
-            entity.Property(e => e.PubData).HasColumnName("pub_data");
-            entity.Property(e => e.RssId).HasColumnName("rss_id");
-            entity.Property(e => e.Title)
-                .HasColumnType("character varying")
-                .HasColumnName("title");
-        });
 
         modelBuilder.Entity<TagKey>(entity =>
         {

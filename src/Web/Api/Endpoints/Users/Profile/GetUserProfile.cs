@@ -1,7 +1,5 @@
 ﻿using Application.User;
-using Domain.Entities;
 using FastEndpoints;
-using System.Net;
 
 namespace Api.Endpoints.Users.Profile
 {
@@ -33,8 +31,6 @@ namespace Api.Endpoints.Users.Profile
         public string? Name { get; set; }
 
         public DateTime? CreatedDate { get; set; }
-
-        public ICollection<RssGroup> RssGroups { get; set; } = new List<RssGroup>();
     }
 
     internal class UserProfileResponseMapper: Mapper<Request, UserProfileResponse, ProfileDto>
@@ -45,8 +41,7 @@ namespace Api.Endpoints.Users.Profile
             {
                 Id = e.Id,
                 Name = e.UserName,
-                CreatedDate = e.CreatedDate,
-                RssGroups = e.RssGroups
+                CreatedDate = e.CreatedDate
             };
         }
     }
