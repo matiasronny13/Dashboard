@@ -5,19 +5,17 @@ namespace Domain.Entities;
 
 public partial class RssItem
 {
-    public Guid Id { get; set; }
+    public string Guid { get; set; } = null!;
 
-    public int? RssFeedId { get; set; }
+    public long? RssId { get; set; }
 
     public string? Title { get; set; }
 
-    public string? Detail { get; set; }
+    public string? Description { get; set; }
 
-    public bool IsRead { get; set; }
+    public DateTime? PubData { get; set; }
 
-    public DateTime? PublishDate { get; set; }
+    public string? Link { get; set; }
 
-    public DateTime? CreatedDate { get; set; }
-
-    public virtual RssFeed? RssFeed { get; set; }
+    public DateTime CreatedAt { get; set; }
 }

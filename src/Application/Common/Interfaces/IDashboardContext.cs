@@ -5,9 +5,9 @@ namespace Application.Common.Interfaces
 {
     public interface IDashboardContext
     {
-        DbSet<RssFeed> RssFeeds { get; set; }
+        DbSet<Rss> Rsses { get; set; }
 
-        DbSet<RssGroup> RssGroups { get; set; }
+        DbSet<RssFolder> RssFolders { get; set; }
 
         DbSet<RssItem> RssItems { get; set; }
 

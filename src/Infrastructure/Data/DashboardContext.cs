@@ -13,9 +13,9 @@ public partial class DashboardContext : DbContext, IDashboardContext
     {
     }
 
-    public virtual DbSet<RssFeed> RssFeeds { get; set; }
+    public virtual DbSet<Rss> Rsses { get; set; }
 
-    public virtual DbSet<RssGroup> RssGroups { get; set; }
+    public virtual DbSet<RssFolder> RssFolders { get; set; }
 
     public virtual DbSet<RssItem> RssItems { get; set; }
 
@@ -29,84 +29,80 @@ public partial class DashboardContext : DbContext, IDashboardContext
     {
         modelBuilder.HasPostgresExtension("uuid-ossp");
 
-        modelBuilder.Entity<RssFeed>(entity =>
+        modelBuilder.Entity<Rss>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("rss_feed_pkey");
+            entity.HasKey(e => e.Id).HasName("rss_pkey");
 
-            entity.ToTable("rss_feed");
+            entity.ToTable("rss");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CreatedDate)
+            entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("now()")
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("created_date");
+                .HasColumnName("created_at");
             entity.Property(e => e.Description)
-                .HasMaxLength(200)
+                .HasColumnType("character varying")
                 .HasColumnName("description");
-            entity.Property(e => e.Name)
-                .HasMaxLength(100)
-                .HasColumnName("name");
-            entity.Property(e => e.RssGroupId).HasColumnName("rss_group_id");
+            entity.Property(e => e.FolderId).HasColumnName("folder_id");
+            entity.Property(e => e.IsDisabled).HasColumnName("is_disabled");
+            entity.Property(e => e.LastBuildDate).HasColumnName("last_build_date");
+            entity.Property(e => e.Schema)
+                .HasColumnType("character varying")
+                .HasColumnName("schema");
+            entity.Property(e => e.SchemaVersion)
+                .HasColumnType("character varying")
+                .HasColumnName("schema_version");
+            entity.Property(e => e.Title)
+                .HasColumnType("character varying")
+                .HasColumnName("title");
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("updated_at");
             entity.Property(e => e.Url)
-                .HasMaxLength(300)
+                .HasColumnType("character varying")
                 .HasColumnName("url");
-
-            entity.HasOne(d => d.RssGroup).WithMany(p => p.RssFeeds)
-                .HasForeignKey(d => d.RssGroupId)
-                .HasConstraintName("fk_feed_group");
         });
 
-        modelBuilder.Entity<RssGroup>(entity =>
+        modelBuilder.Entity<RssFolder>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("rss_group_pkey");
+            entity.HasKey(e => e.Id).HasName("rss_folder_pkey");
 
-            entity.ToTable("rss_group");
+            entity.ToTable("rss_folder");
 
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CreatedDate)
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("now()")
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("created_date");
+                .HasColumnName("created_at");
             entity.Property(e => e.Name)
-                .HasMaxLength(100)
+                .HasColumnType("character varying")
                 .HasColumnName("name");
             entity.Property(e => e.ParentId).HasColumnName("parent_id");
-            entity.Property(e => e.SeqId).HasColumnName("seq_id");
-            entity.Property(e => e.UserProfileId).HasColumnName("user_profile_id");
-
-            entity.HasOne(d => d.UserProfile).WithMany(p => p.RssGroups)
-                .HasForeignKey(d => d.UserProfileId)
-                .HasConstraintName("fk_group_profile");
         });
 
         modelBuilder.Entity<RssItem>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("rss_item_pkey");
+            entity.HasKey(e => e.Guid).HasName("rss_item_pkey");
 
             entity.ToTable("rss_item");
 
-            entity.Property(e => e.Id)
-                .HasDefaultValueSql("uuid_generate_v4()")
-                .HasColumnName("id");
-            entity.Property(e => e.CreatedDate)
+            entity.Property(e => e.Guid)
+                .HasColumnType("character varying")
+                .HasColumnName("guid");
+            entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("now()")
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("created_date");
-            entity.Property(e => e.Detail)
-                .HasMaxLength(500)
-                .HasColumnName("detail");
-            entity.Property(e => e.IsRead).HasColumnName("is_read");
-            entity.Property(e => e.PublishDate)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("publish_date");
-            entity.Property(e => e.RssFeedId).HasColumnName("rss_feed_id");
+                .HasColumnName("created_at");
+            entity.Property(e => e.Description)
+                .HasColumnType("character varying")
+                .HasColumnName("description");
+            entity.Property(e => e.Link)
+                .HasColumnType("character varying")
+                .HasColumnName("link");
+            entity.Property(e => e.PubData).HasColumnName("pub_data");
+            entity.Property(e => e.RssId).HasColumnName("rss_id");
             entity.Property(e => e.Title)
-                .HasMaxLength(300)
+                .HasColumnType("character varying")
                 .HasColumnName("title");
-
-            entity.HasOne(d => d.RssFeed).WithMany(p => p.RssItems)
-                .HasForeignKey(d => d.RssFeedId)
-                .HasConstraintName("fk_item_feed");
         });
 
         modelBuilder.Entity<TagKey>(entity =>

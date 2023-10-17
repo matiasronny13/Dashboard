@@ -10,6 +10,4 @@ public partial class UserProfile
     public string? Name { get; set; }
 
     public DateTime? CreatedDate { get; set; }
-
-    public virtual ICollection<RssGroup> RssGroups { get; set; } = new List<RssGroup>();
 }

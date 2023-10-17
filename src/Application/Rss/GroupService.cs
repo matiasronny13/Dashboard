@@ -2,7 +2,7 @@
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Rss
+namespace Application.Feeds
 {
     public class GroupService : IGroupService
     {
@@ -13,7 +13,7 @@ namespace Application.Rss
         }
         public async Task<IEnumerable<RssGroup>> GetGroupsAsync()
         {
-            return await _db.RssGroups.Include(a => a.UserProfile).ToArrayAsync();
+            
         }
     }
 }

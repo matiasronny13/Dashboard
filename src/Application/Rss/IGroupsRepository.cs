@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Rss
+namespace Application.Feeds
 {
     public interface IGroupsRepository
     {
