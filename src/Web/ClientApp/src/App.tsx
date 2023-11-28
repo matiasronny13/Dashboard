@@ -8,7 +8,6 @@ import Footer from './components/footer/Footer';
 
 const queryClient = new QueryClient();
 const Home = lazy(() => import("./pages/home/Home"));
-const Rss = lazy(() => import("./pages/rss/Rss"));
 const WebCollection = lazy(() => import("./pages/webCollection/WebCollection"));
 const StockAlert = lazy(() => import("./pages/stockAlert/StockAlert"));
 const darkTheme = createTheme({
@@ -42,11 +41,7 @@ function App() {
         {
           path: "/",
           element: (<Suspense fallback={<>Loading...</>}><Home /></Suspense>)
-        },  
-        {
-          path: "/rss",
-          element: (<Suspense fallback={<>Loading...</>}><Rss /></Suspense>)
-        },      
+        },    
         {
           path: "/webcollection",
           element: (<Suspense fallback={<>Loading...</>}><WebCollection /></Suspense>)
