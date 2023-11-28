@@ -56,7 +56,7 @@ namespace Application.WebCollection
                 query = query.Where(predicate);
             }
 
-            return await query.OrderBy(i => i.Title).ToListAsync();
+            return await query.OrderByDescending(i => i.Created).ToListAsync();
         }
 
         public async Task<WebTagDto?> GetAsync(string hash)
