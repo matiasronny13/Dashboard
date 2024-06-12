@@ -22,37 +22,37 @@ export const menu = [
 export const searchEngines = [
   {
     id: 1,
-    name: "Google",
-    icon: "google.ico",
-    url: "https://www.google.com/search?q=",
+    name: "Searx",
+    icon: "searx.png",
+    url: "https://priv.au/?q=",
     isDefault: true
   },
   {
     id: 2,
-    name: "Searx",
-    icon: "searx.png",
-    url: "https://searx.be/?q=",
-    isDefault: false
-  },
-  {
-    id: 3,
     name: "Start Page",
     icon: "startpage.ico",
     url: "https://www.startpage.com/do/dsearch?query=",
     isDefault: false
   },
   {
-    id: 4,
+    id: 3,
     name: "DuckDuckGo",
     icon: "duckduckgo.ico",
     url: "https://duckduckgo.com/?ia=web&q=",
     isDefault: false
   },
   {
-    id: 5,
+    id: 4,
     name: "Brave",
     icon: "brave.png",
     url: "https://search.brave.com/search?source=web&q=",
+    isDefault: false
+  },
+  {
+    id: 5,
+    name: "Google",
+    icon: "google.ico",
+    url: "https://www.google.com/search?q=",
     isDefault: false
   }
 ];
