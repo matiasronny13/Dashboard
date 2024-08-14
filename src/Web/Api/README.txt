@@ -1,7 +1,7 @@
 ﻿
 ## Updating database context
-dotnet ef dbcontext scaffold "host=localhost;database=dashboard;user id=postgres;password=zzzzzzz" Npgsql.EntityFrameworkCore.PostgreSQL --force --context-namespace Infrastructure.Data --context-dir D:\Net\Dashboard\src\Infrastructure\Data --context DashboardContext --namespace Domain.Entities --output-dir D:\Net\Dashboard\src\Domain\Entities --no-onconfiguring
--t collection
+dotnet-ef dbcontext scaffold "host=localhost;database=dashboard;user id=postgres;password=zzzzzzz" Npgsql.EntityFrameworkCore.PostgreSQL --force --context-namespace Infrastructure.Data --context-dir D:\Net\Dashboard\src\Infrastructure\Data --context DashboardContext --namespace Domain.Entities --output-dir D:\Net\Dashboard\src\Domain\Entities --no-onconfiguring
+-t <table name>
 
 
 
