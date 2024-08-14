@@ -13,6 +13,8 @@ public partial class DashboardContext : DbContext, IDashboardContext
     {
     }
 
+    public virtual DbSet<TopstepAccount> TopstepAccounts { get; set; }
+
     public virtual DbSet<TagKey> TagKeys { get; set; }
 
     public virtual DbSet<UserProfile> UserProfiles { get; set; }
@@ -22,6 +24,24 @@ public partial class DashboardContext : DbContext, IDashboardContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasPostgresExtension("uuid-ossp");
+
+        modelBuilder.Entity<TopstepAccount>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("topstep_accounts_pkey");
+
+            entity.ToTable("topstep_accounts");
+
+            entity.Property(e => e.Id)
+                .HasColumnType("character varying")
+                .HasColumnName("id");
+            entity.Property(e => e.AccountType).HasColumnName("account_type");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("created_at");
+            entity.Property(e => e.Name)
+                .HasColumnType("character varying")
+                .HasColumnName("name");
+        });
 
         modelBuilder.Entity<TagKey>(entity =>
         {

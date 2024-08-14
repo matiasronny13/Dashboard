@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using Application.Bookmark;
 using Application.WebCollection;
+using Application.Topstep;
 
 namespace Application
 {
@@ -17,6 +18,7 @@ namespace Application
             services.AddScoped<IProfileService, ProfileService>();
             services.AddScoped<IWebTagService, WebTagService>();
             services.AddScoped<ITagKeyService, TagKeyService>();
+            services.AddScoped<IAccountService, AccountService>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             return services;
         }

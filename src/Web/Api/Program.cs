@@ -19,6 +19,20 @@ void ConfigureFastEndpoints()
     //Use Serilog
     builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
+    var allowedCorsOrigins = builder.Configuration.GetSection("AllowedCorsOrigins").Get<string[]>();
+    if(allowedCorsOrigins != null && allowedCorsOrigins.Length > 0)
+    {
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("SpecificOrigins", policy =>
+            {
+                policy.WithOrigins(allowedCorsOrigins)
+                      .AllowAnyHeader()
+                      .AllowAnyMethod();
+            });
+        });
+    }
+
     builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
     builder.Services.AddFastEndpoints();
     builder.Services.SwaggerDocument(options =>
@@ -42,6 +56,7 @@ void ConfigureFastEndpoints()
     })
     .UseAuthorization()       
     .UseSwaggerGen();
+    if (allowedCorsOrigins != null && allowedCorsOrigins.Length > 0) app.UseCors("SpecificOrigins");
 
     app.Run();
 }
