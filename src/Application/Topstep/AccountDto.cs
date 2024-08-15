@@ -6,8 +6,9 @@ namespace Application.Topstep
 {
     public enum AccountTypeEnum
     {
-        Practice,
-        Combine,
+        Unknown = 0,
+        Combine = 1,
+        Practice = 4,
         Funded,
         Live
     }
