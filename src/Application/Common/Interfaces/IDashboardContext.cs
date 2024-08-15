@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Application.Common.Interfaces
 {
@@ -12,6 +13,10 @@ namespace Application.Common.Interfaces
         DbSet<UserProfile> UserProfiles { get; set; }
 
         DbSet<WebTag> WebTags { get; set; }
+
+        ChangeTracker ChangeTracker { get; }
+
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 
         int SaveChanges();
     }

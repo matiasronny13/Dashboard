@@ -33,7 +33,6 @@ namespace Application.Topstep
 
         public async Task<IEnumerable<AccountDto>> InsertAccounts(IEnumerable<AccountDto> accounts)
         {
-            bool hasChange = false;
             List<AccountDto> result = new List<AccountDto>();
             string[] filterIds = accounts.Select(a => a.Id).ToArray();
             var existingAccounts = _db.TopstepAccounts.Where(a => filterIds.Contains(a.Id));
@@ -44,18 +43,17 @@ namespace Application.Topstep
                 {
                     TopstepAccount newAccount = _mapper.Map<TopstepAccount>(account);
                     _db.TopstepAccounts.Add(newAccount);
-                    account.IsError = false;
-                    hasChange = true;
                 }
                 else
                 {
                     account.IsError = true;
                     account.ErrorMessage = "Account Exists";
                 }
+
                 result.Add(account);
             }
             
-            if(hasChange) _db.SaveChanges();
+            if(_db.ChangeTracker.HasChanges()) _db.SaveChanges();
             return await Task.FromResult(result);
         }
     }
