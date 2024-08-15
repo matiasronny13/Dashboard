@@ -53,6 +53,7 @@ void ConfigureFastEndpoints()
         options.Endpoints.RoutePrefix = "api";
         options.Serializer.Options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
         options.Serializer.Options.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        options.Serializer.Options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     })
     .UseAuthorization()       
     .UseSwaggerGen();
