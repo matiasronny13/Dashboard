@@ -1,6 +1,7 @@
 ﻿using Application.Topstep;
 using Application.WebCollection;
 using FastEndpoints;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,14 +23,10 @@ namespace Api.Endpoints.Topstep.Accounts
         public override async Task HandleAsync(IEnumerable<RequestDto> request, CancellationToken ct)
         {
             IEnumerable<AccountDto> dtos = Map.ToEntities(request);
-            if(dtos != null && dtos.Count() > 0)
+            if(dtos != null)
             {
                 IEnumerable<AccountDto> result = await AppService.InsertAccounts(dtos);
                 await SendCreatedAtAsync<Topstep.Accounts.Get>(null, Map.FromEntities(result));
-            }
-            else
-            {
-                await SendErrorsAsync(400, ct);
             }
         }
 
@@ -41,6 +38,13 @@ namespace Api.Endpoints.Topstep.Accounts
             public AccountTypeEnum AccountType { get; set; }
 
             public string? Name { get; set; }
+        }
+
+        public class RequestDtoValidator : Validator<IEnumerable<Insert.RequestDto>> { 
+            public RequestDtoValidator()
+            {
+                RuleFor(a => a).NotEmpty();
+            }
         }
 
         internal class ResponseDto
