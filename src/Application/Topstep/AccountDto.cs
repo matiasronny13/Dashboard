@@ -14,7 +14,7 @@ namespace Application.Topstep
     }
     public class AccountDto
     {
-        public string Id { get; set; } = null!;
+        public long Id { get; set; }
 
         public AccountTypeEnum AccountType { get; set; }
 

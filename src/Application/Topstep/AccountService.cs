@@ -34,7 +34,7 @@ namespace Application.Topstep
         public async Task<IEnumerable<AccountDto>> InsertAccounts(IEnumerable<AccountDto> accounts)
         {
             List<AccountDto> result = new List<AccountDto>();
-            string[] filterIds = accounts.Select(a => a.Id).ToArray();
+            long[] filterIds = accounts.Select(a => a.Id).ToArray();
             var existingAccounts = _db.TopstepAccounts.Where(a => filterIds.Contains(a.Id));
 
             foreach (AccountDto account in accounts)

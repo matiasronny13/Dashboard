@@ -33,7 +33,7 @@ namespace Api.Endpoints.Topstep.Accounts
         #region Internal Classes
         internal class RequestDto
         {
-            public string Id { get; set; } = null!;
+            public long Id { get; set; }
 
             public AccountTypeEnum AccountType { get; set; }
 
@@ -49,7 +49,7 @@ namespace Api.Endpoints.Topstep.Accounts
 
         internal class ResponseDto
         {
-            public string Id { get; set; } = null!;
+            public long Id { get; set; }
 
             public AccountTypeEnum AccountType { get; set; }
 

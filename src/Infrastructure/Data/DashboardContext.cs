@@ -32,7 +32,7 @@ public partial class DashboardContext : DbContext, IDashboardContext
             entity.ToTable("topstep_accounts");
 
             entity.Property(e => e.Id)
-                .HasColumnType("character varying")
+                .ValueGeneratedNever()
                 .HasColumnName("id");
             entity.Property(e => e.AccountType).HasColumnName("account_type");
             entity.Property(e => e.CreatedAt)

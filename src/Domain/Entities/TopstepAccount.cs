@@ -2,7 +2,7 @@
 
 public partial class TopstepAccount
 {
-    public string Id { get; set; } = null!;
+    public long Id { get; set; }
 
     public int AccountType { get; set; }
 

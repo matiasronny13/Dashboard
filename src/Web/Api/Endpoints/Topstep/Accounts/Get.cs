@@ -32,7 +32,7 @@ namespace Api.Endpoints.Topstep.Accounts
         #region Internal Classes
         internal class ResponseDto
         {
-            public string Id { get; set; } = null!;
+            public long Id { get; set; }
 
             [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumConverter))]
             public AccountTypeEnum AccountTypeName { get => AccountType; }
