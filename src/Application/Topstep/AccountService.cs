@@ -28,7 +28,7 @@ namespace Application.Topstep
         }
         public async Task<List<AccountDto>> GetAccountsAsync()
         {
-            return await Task.FromResult(_db.TopstepAccounts.ProjectTo<AccountDto>(_mapper.ConfigurationProvider).ToList());
+            return await Task.FromResult(_db.TopstepAccounts.ProjectTo<AccountDto>(_mapper.ConfigurationProvider).OrderBy(a => a.AccountType).ThenByDescending(a => a.Id).ToList());
         }
 
         public async Task<IEnumerable<AccountDto>> InsertAccounts(IEnumerable<AccountDto> accounts)
