@@ -3,7 +3,6 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Numerics;
 
 namespace Application.WebCollection
 {
@@ -11,7 +10,7 @@ namespace Application.WebCollection
     {
         public void Create(TagKeyDto input);
         public void Update(TagKeyDto input);
-        public void Delete();
+        public void Delete(long id);
         public Task<TagKeyDto?> GetAsync(Int64 id);
         public Task<IList<TagKeyDto>> GetAllAsync();
     }
@@ -20,10 +19,13 @@ namespace Application.WebCollection
     {
         private readonly IDashboardContext _db;
         private readonly IMapper _mapper;
-        public TagKeyService(IDashboardContext db, IMapper mapper)
+        private readonly IWebTagService _webTagService;
+
+        public TagKeyService(IDashboardContext db, IMapper mapper, IWebTagService webTagService)
         {
             _mapper = mapper;
             _db = db;
+            _webTagService = webTagService;
         }
 
         public async Task<TagKeyDto?> GetAsync(Int64 id)
@@ -35,7 +37,10 @@ namespace Application.WebCollection
         {
             TagKey inputData = _mapper.Map<TagKey>(input);
             _db.TagKeys.Add(inputData);
-            _db.SaveChanges();
+            if(_db.SaveChanges() == 1)
+            {
+                _mapper.Map(inputData, input);
+            }
         }
         public void Update(TagKeyDto input)
         {
@@ -43,9 +48,10 @@ namespace Application.WebCollection
             _db.TagKeys.Update(inputData);
             _db.SaveChanges();
         }
-        public void Delete()
+        public void Delete(long id)
         {
-
+            _db.TagKeys.Remove(new TagKey() { Id = id});
+            _db.SaveChanges();
         }
         public async Task<IList<TagKeyDto>> GetAllAsync()
         {
