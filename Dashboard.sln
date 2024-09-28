@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{00E9EF3C-69D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "src\Web\Api\Api.csproj", "{00B47794-1E90-46E4-9D9B-3D4C7B4C73AD}"
 EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "ClientApp", "src\Web\ClientApp\ClientApp.esproj", "{A95D3121-D3A7-46C1-BE47-D332AF846C78}"
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "ClientApp", "src\Web\ClientApp\ClientApp.csproj", "{A95D3121-D3A7-46C1-BE47-D332AF846C78}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{AFA7EB57-A9C2-440A-BED1-2814720FE8AA}"
 	ProjectSection(SolutionItems) = preProject
