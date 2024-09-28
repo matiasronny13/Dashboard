@@ -1,9 +1,9 @@
 ﻿using Application.WebCollection;
 using FastEndpoints;
 
-namespace Api.Endpoints.WebCollection
+namespace Api.Endpoints.WebCollection.Tag
 {
-    internal class GetTags : EndpointWithoutRequest<IEnumerable<GetTags.ResponseDto>, GetTags.DtoMapper>
+    internal class Get : EndpointWithoutRequest<IEnumerable<Get.ResponseDto>, Get.DtoMapper>
     {
         public required ITagKeyService AppService { get; init; }
         public override void Configure()
@@ -39,7 +39,7 @@ namespace Api.Endpoints.WebCollection
         {
             public override IEnumerable<ResponseDto> FromEntity(IList<TagKeyDto> e)
             {
-                foreach(TagKeyDto i in e)
+                foreach (TagKeyDto i in e)
                 {
                     yield return new ResponseDto()
                     {
