@@ -54,8 +54,7 @@ void ConfigureFastEndpoints()
         options.Serializer.Options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
         options.Serializer.Options.ReferenceHandler = ReferenceHandler.IgnoreCycles;
         options.Serializer.Options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-    })
-    .UseAuthorization()       
+    })     
     .UseSwaggerGen();
     if (allowedCorsOrigins != null && allowedCorsOrigins.Length > 0) app.UseCors("SpecificOrigins");
 
