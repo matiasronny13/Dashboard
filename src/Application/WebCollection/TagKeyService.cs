@@ -10,7 +10,7 @@ namespace Application.WebCollection
     {
         public void Create(TagKeyDto input);
         public void Update(TagKeyDto input);
-        public void Delete(long id);
+        public Task Delete(long id);
         public Task<TagKeyDto?> GetAsync(Int64 id);
         public Task<IList<TagKeyDto>> GetAllAsync();
     }
@@ -48,10 +48,20 @@ namespace Application.WebCollection
             _db.TagKeys.Update(inputData);
             _db.SaveChanges();
         }
-        public void Delete(long id)
+        public async Task Delete(long id)
         {
-            _db.TagKeys.Remove(new TagKey() { Id = id});
-            _db.SaveChanges();
+            try
+            {
+                _db.TagKeys.Remove(new TagKey() { Id = id });
+                _db.SaveChanges();
+
+                string[] itemIds = _db.WebTags.Where(w => w.Tags != null && w.Tags.Any(a => a == id)).Select(s => s.Id).ToArray();
+                await _webTagService.Delete(itemIds);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw new Exception($"Failed to delete tag id {id}");
+            }
         }
         public async Task<IList<TagKeyDto>> GetAllAsync()
         {

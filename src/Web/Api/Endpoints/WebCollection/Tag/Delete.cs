@@ -20,7 +20,7 @@ namespace Api.Endpoints.WebCollection.Tag
         }
         public override async Task HandleAsync(RequestDto request, CancellationToken ct)
         {
-            AppService.Delete(request.Id);
+            await AppService.Delete(request.Id);
             await SendOkAsync(ct);
         }
 

@@ -3,6 +3,11 @@ using System.Net;
 
 namespace Api.Middlewares
 {
+    public class ExceptionDto
+    {
+        public required string Message { get; set; }
+        public HttpStatusCode Code { get; set; }
+    }
     public class ExceptionHandlerMiddleware
     {
         private readonly RequestDelegate _next;
@@ -28,33 +33,41 @@ namespace Api.Middlewares
                 response.ContentType = "application/json";
 
                 // get the response code and message
-                var (status, message) = GetResponse(exception);
-                response.StatusCode = (int)status;
-                await response.WriteAsync(message);
+                ExceptionDto dto = GetExceptionDto(exception);
+                response.StatusCode = (int)dto.Code;
+                await response.WriteAsync(JsonConvert.SerializeObject(dto));
             }
         }
 
-        public (HttpStatusCode code, string message) GetResponse(Exception exception)
+        public ExceptionDto GetExceptionDto(Exception exception)
         {
-            HttpStatusCode code;
-            switch (exception)
+             switch (exception)
             {
                 case KeyNotFoundException or FileNotFoundException:
-                    code = HttpStatusCode.NotFound;
-                    break;
+                    return new ExceptionDto() { 
+                        Message = "File not found", 
+                        Code = HttpStatusCode.NotFound 
+                    };
                 case UnauthorizedAccessException:
-                    code = HttpStatusCode.Unauthorized;
-                    break;
+                    return new ExceptionDto()
+                    {
+                        Message = "Unauthorized access",
+                        Code = HttpStatusCode.Unauthorized
+                    };
                 case ArgumentException or InvalidOperationException:
-                    code = HttpStatusCode.BadRequest;
-                    break;
+                    return new ExceptionDto()
+                    {
+                        Message = "Bad request",
+                        Code = HttpStatusCode.BadRequest
+                    };
                 default:
-                    code = HttpStatusCode.InternalServerError;
-                    break;
+                    return new ExceptionDto()
+                    {
+                        Message = exception.Message,
+                        Code = HttpStatusCode.InternalServerError
+                    };
             }
-            return (code, exception.Message);
-            //return (code, JsonConvert.SerializeObject(new SimpleResponse(exception.Message)));
         }
     }
-
 }
+
