@@ -99,8 +99,14 @@ namespace Application.WebCollection
                 _db.WebTags.RemoveRange(input.Select(id => new WebTag() { Id = id }).ToArray());
                 _db.SaveChanges();
 
-                var tasks = input.Select(id => DeleteFileAsync(Path.Combine(_options.WebCollection.ThumbnailPath, $"{id}.png")));
-                await Task.WhenAll(tasks);
+                List<Task> tasks = new List<Task>();
+                foreach (string id in input)
+                {
+                    tasks.Add(DeleteFileAsync(Path.Combine(_options.WebCollection.ThumbnailPath, $"{id}.png")));
+                    tasks.Add(DeleteFileAsync(Path.Combine(_options.WebCollection.ThumbnailPath, $"{id}.ico")));
+                }
+                
+                if(tasks.Count > 0) await Task.WhenAll(tasks);
             }
         }
         public async Task<IList<WebTagDto>> GetAllAsync()
