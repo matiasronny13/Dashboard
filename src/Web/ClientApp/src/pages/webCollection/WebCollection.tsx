@@ -3,6 +3,9 @@ import ListView from '../../components/listView/ListView';
 import './webCollection.scss'
 import { Button, Checkbox } from 'antd';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
+import TagItem from '../../components/tagItem/TagItem';
+import { TextField } from '@mui/material';
+import { Runtime } from 'chrome-types';
 
 type TFilter = {
   query: string;
@@ -25,6 +28,10 @@ const WebCollection = () => {
     useEffect(() => { refreshListView() }, [filter])
 
     useEffect(() => {
+      fetchTags()
+    }, [])
+
+    const fetchTags = () => {
       fetch("/api/tags", { method: "GET", headers: { "Accept": "application/json", "Content-Type": "application/json"}})
       .then(response => {
         if (response.status == 200) return response.json()
@@ -35,7 +42,7 @@ const WebCollection = () => {
         json.map((i:SiteInfo) => tagMap.set(i.id, i.title))
         setTagList(() => tagMap)
       })
-    }, [])
+    }
 
     const onItemDelete = async (id:string) => {
       //setSiteinfoList(prev => prev.filter((x) => x.id !== id))
@@ -84,6 +91,41 @@ const WebCollection = () => {
                                 isSingle:event.target.checked}))
     }
 
+    const resetExtensionState = () => {
+      if (chrome && chrome.runtime && chrome.runtime.sendMessage) {
+        chrome.runtime.sendMessage("pebphngoiaghbmhhipdkacbeflddpacb", { command : 'reset-state'});
+      }
+    }
+
+    const onDeleteTag = async(id: number) => {
+      const response = await fetch(`/api/tags/${id}`, { method: "DELETE", headers: { "Accept": "application/json" }})
+      if(response.status == 200)      
+      {
+        tagList.delete(id)
+        setFilter((prev:TFilter) => ({...prev, tagFilter: []}))  
+        resetExtensionState()
+      }
+    }
+
+    const onAddTagKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        const newTag = (event.target as HTMLInputElement).value.trim();
+        if (newTag) {
+          fetch("/api/tags", { method: "POST", headers: { "Accept": "application/json", "Content-Type": "application/json"}, body: JSON.stringify({title: newTag})})
+          .then(response => {
+            if (response.status == 201) return response.json()
+          })
+          .then(json => {
+            setTagList(new Map(tagList).set(json.id, json.title))
+            setFilter((prev:TFilter) => ({...prev, tagFilter: [json.id]}))  
+            resetExtensionState()            
+          })
+        }
+        (event.target as HTMLInputElement).value = ""
+      }
+    }
+
     return (
       <div className="webCollection">
         <div className='filterPanel'>
@@ -95,11 +137,14 @@ const WebCollection = () => {
             </div>
             <div><Checkbox style={{color: 'white'}} onChange={onSingleToggle} checked={filter.isSingle}>Single Select</Checkbox></div>
           </div>
+          <TextField placeholder='Add Tag' variant="outlined" size="small" onKeyDown={onAddTagKeyDown} />
           {
-            [...tagList].map((item) => (<div className={`tagButton ${filter.tagFilter.indexOf(item[0]) != -1 ? 'selected' : ''}`} onClick={() => toggleFilter(item[0])}>{item[1]}</div>))
+            [...tagList].map((item) => (<TagItem id={item[0]} title={item[1]} isSelected={filter.tagFilter.indexOf(item[0]) != -1} onDeleteHandler={onDeleteTag} onClickHandler={() => toggleFilter(item[0])} />))
           }
         </div>
-        <ListView itemList={siteInfoList} tagList={tagList} onItemDelete={onItemDelete}></ListView>
+        <div className='listView'>
+          <ListView itemList={siteInfoList} tagList={tagList} onItemDelete={onItemDelete}></ListView>
+        </div>
       </div>
     );
   };

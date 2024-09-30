@@ -1,0 +1,45 @@
+.tagButton {
+    cursor: pointer;
+    padding: 5px 7px;
+    border-radius: 5px;
+    font-size: smaller;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+
+    &:hover {
+        background-color: rgb(245, 183, 183);
+        color: black;
+    }
+
+    .tagTitle {
+        cursor: pointer;
+        flex-grow: 1;
+    }
+}
+
+.tagButton.selected {
+    background-color: rgb(141, 184, 240);
+    color: black;
+
+    .tagRemove {
+        cursor: pointer;
+        height: 16px;
+        width: 16px;
+        border-radius: 20%;
+        display: flex;
+        align-items: center; 
+        justify-content: center;
+
+        &:hover {
+            background-color: rgba(41, 83, 138, 0.5);
+        }
+    }
+
+    .tagTitle {
+        cursor: pointer;
+        flex-grow: 1;
+    }
+}

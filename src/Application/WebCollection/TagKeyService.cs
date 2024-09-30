@@ -56,7 +56,11 @@ namespace Application.WebCollection
                 _db.SaveChanges();
 
                 string[] itemIds = _db.WebTags.Where(w => w.Tags != null && w.Tags.Any(a => a == id)).Select(s => s.Id).ToArray();
-                await _webTagService.Delete(itemIds);
+
+                if(itemIds.Length > 0)
+                {
+                    await _webTagService.Delete(itemIds);
+                }
             }
             catch (DbUpdateConcurrencyException)
             {
