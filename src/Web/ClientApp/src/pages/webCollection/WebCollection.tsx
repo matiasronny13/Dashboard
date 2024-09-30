@@ -5,7 +5,7 @@ import { Button, Checkbox } from 'antd';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import TagItem from '../../components/tagItem/TagItem';
 import { TextField } from '@mui/material';
-import { Runtime } from 'chrome-types';
+import 'chrome-types';
 
 type TFilter = {
   query: string;
