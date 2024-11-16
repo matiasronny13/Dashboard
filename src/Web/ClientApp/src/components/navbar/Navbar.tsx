@@ -40,11 +40,11 @@ const Navbar = () => {
             <img src={`${import.meta.env.BASE_URL}/web-collector.png`} alt=""></img>
             <Typography>Web collector</Typography>
           </Link>
-          <Link to="/stockAlert"  onClick={handleClose}>
+          <Link to="http://localhost/portal/alerts"  onClick={handleClose}>
             <img src={`${import.meta.env.BASE_URL}/stock-alert.png`} alt=""></img>
             <Typography>Stock Alert</Typography>
           </Link>
-          <Link to="http://localhost/feedreader"  onClick={handleClose}>
+          <Link to="http://localhost/portal/feeds"  onClick={handleClose}>
             <img src={`${import.meta.env.BASE_URL}/feedreader.ico`} alt=""></img>
             <Typography>Feed Reader</Typography>
           </Link>
