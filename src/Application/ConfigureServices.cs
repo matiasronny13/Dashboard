@@ -1,5 +1,4 @@
-﻿using Application.User;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using Application.Bookmark;
 using Application.WebCollection;
@@ -15,7 +14,6 @@ namespace Application
             services.AddHttpClient("HttpClient");
 
             services.AddScoped<IBookmarkService, BookmarkService>();
-            services.AddScoped<IProfileService, ProfileService>();
             services.AddScoped<IWebTagService, WebTagService>();
             services.AddScoped<ITagKeyService, TagKeyService>();
             services.AddScoped<IAccountService, AccountService>();

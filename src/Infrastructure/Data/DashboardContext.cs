@@ -17,8 +17,6 @@ public partial class DashboardContext : DbContext, IDashboardContext
 
     public virtual DbSet<TagKey> TagKeys { get; set; }
 
-    public virtual DbSet<UserProfile> UserProfiles { get; set; }
-
     public virtual DbSet<WebTag> WebTags { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -62,22 +60,6 @@ public partial class DashboardContext : DbContext, IDashboardContext
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("updated");
-        });
-
-        modelBuilder.Entity<UserProfile>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("user_profile_pkey");
-
-            entity.ToTable("user_profile");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CreatedDate)
-                .HasDefaultValueSql("now()")
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("created_date");
-            entity.Property(e => e.Name)
-                .HasMaxLength(100)
-                .HasColumnName("name");
         });
 
         modelBuilder.Entity<WebTag>(entity =>

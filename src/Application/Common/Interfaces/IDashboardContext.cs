@@ -10,8 +10,6 @@ namespace Application.Common.Interfaces
 
         DbSet<TagKey> TagKeys { get; set; }
 
-        DbSet<UserProfile> UserProfiles { get; set; }
-
         DbSet<WebTag> WebTags { get; set; }
 
         ChangeTracker ChangeTracker { get; }
