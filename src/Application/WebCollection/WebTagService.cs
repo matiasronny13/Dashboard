@@ -21,22 +21,15 @@ namespace Application.WebCollection
 
     internal class WebTagService: IWebTagService
     {
-        private readonly IDashboardContext _db;
-        private readonly IMapper _mapper;
-        private readonly AppSettings _options;
-        private readonly ILogger _logger;
-        public WebTagService(IDashboardContext db, IMapper mapper, IOptions<AppSettings> options, ILogger logger)
-        {
-            _mapper = mapper;
-            _db = db;
-            _options = options.Value;
-            _logger = logger;
-        }
+        public required IDashboardContext db { get; init; }
+        public required IMapper mapper { get; init; }
+        public required IOptions<AppSettings> options { get; init; }
+        public required ILogger logger { get; init; }
 
         public async Task<IList<WebTagDto>> FindAsync(WebTagFilterDto filter)
         {
             ExpressionStarter<WebTagDto> predicate = PredicateBuilder.New<WebTagDto>(true);
-            IQueryable<WebTagDto> query = _db.WebTags.ProjectTo<WebTagDto>(_mapper.ConfigurationProvider);
+            IQueryable<WebTagDto> query = db.WebTags.ProjectTo<WebTagDto>(mapper.ConfigurationProvider);
 
             if (!string.IsNullOrEmpty(filter.Query))
             {
@@ -61,20 +54,20 @@ namespace Application.WebCollection
 
         public async Task<WebTagDto?> GetAsync(string hash)
         {
-            return await _db.WebTags.ProjectTo<WebTagDto>(_mapper.ConfigurationProvider).Where(a => a.Id == hash).FirstOrDefaultAsync();
+            return await db.WebTags.ProjectTo<WebTagDto>(mapper.ConfigurationProvider).Where(a => a.Id == hash).FirstOrDefaultAsync();
         }
 
         public void Create(WebTagDto input)
         {
-            WebTag inputData = _mapper.Map<WebTag>(input);
-            _db.WebTags.Add(inputData);
-            _db.SaveChanges();
+            WebTag inputData = mapper.Map<WebTag>(input);
+            db.WebTags.Add(inputData);
+            db.SaveChanges();
         }
         public void Update(WebTagDto input)
         {
-            WebTag inputData = _mapper.Map<WebTag>(input);
-            _db.WebTags.Update(inputData);
-            _db.SaveChanges();
+            WebTag inputData = mapper.Map<WebTag>(input);
+            db.WebTags.Update(inputData);
+            db.SaveChanges();
         }
 
         private async Task DeleteFileAsync(string filePath)
@@ -88,7 +81,7 @@ namespace Application.WebCollection
             }
             catch (Exception ex)
             {
-                _logger.Error($"Failed to delete {filePath}");
+                logger.Error($"Failed to delete {filePath}");
             }
         }
 
@@ -96,14 +89,14 @@ namespace Application.WebCollection
         {
             if(input.Count() > 0)
             {
-                _db.WebTags.RemoveRange(input.Select(id => new WebTag() { Id = id }).ToArray());
-                _db.SaveChanges();
+                db.WebTags.RemoveRange(input.Select(id => new WebTag() { Id = id }).ToArray());
+                db.SaveChanges();
 
                 List<Task> tasks = new List<Task>();
                 foreach (string id in input)
                 {
-                    tasks.Add(DeleteFileAsync(Path.Combine(_options.WebCollection.ThumbnailPath, $"{id}.png")));
-                    tasks.Add(DeleteFileAsync(Path.Combine(_options.WebCollection.ThumbnailPath, $"{id}.ico")));
+                    tasks.Add(DeleteFileAsync(Path.Combine(options.Value.WebCollection.ThumbnailPath, $"{id}.png")));
+                    tasks.Add(DeleteFileAsync(Path.Combine(options.Value.WebCollection.ThumbnailPath, $"{id}.ico")));
                 }
                 
                 if(tasks.Count > 0) await Task.WhenAll(tasks);
@@ -111,7 +104,31 @@ namespace Application.WebCollection
         }
         public async Task<IList<WebTagDto>> GetAllAsync()
         {
-            return await _db.WebTags.ProjectTo<WebTagDto>(_mapper.ConfigurationProvider).ToListAsync();
+            return await db.WebTags.ProjectTo<WebTagDto>(mapper.ConfigurationProvider).ToListAsync();
         }
     }
+
+    #region DTO
+    public class WebTagDto
+    {
+        public string? Id { get; set; }
+
+        public string? Url { get; set; }
+
+        public string? Title { get; set; }
+
+        public string? Note { get; set; }
+
+        public int[]? Tags { get; set; }
+        public DateTime? Created { get; set; }
+    }
+    public class WebTagFilterDto
+    {
+        public string? Query { get; set; }
+        public int[]? TagFilter { get; set; }
+
+        public string OrderBy { get; set; } = "Title";
+        public bool IsAscending { get; set; }
+    }
+    #endregion
 }

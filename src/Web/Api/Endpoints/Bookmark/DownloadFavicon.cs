@@ -5,7 +5,7 @@ namespace Api.Endpoints.Bookmark
 {
     internal class DownloadFavicon: Endpoint<DownloadRequest>
     {
-        public IBookmarkService bookmarkService { get; init; }
+        public required IBookmarkService bookmarkService { get; init; }
 
         public override void Configure()
         {

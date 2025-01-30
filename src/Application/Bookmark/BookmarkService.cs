@@ -8,29 +8,23 @@ namespace Application.Bookmark
         public Task DownloadFavicon(DownloadRequest request);
     }
 
-    internal class BookmarkService : IBookmarkService
+    internal class BookmarkService: IBookmarkService
     {
-        private IHttpClientFactory _httpClientFactory;
-        private readonly AppSettings _options;
-
-        public BookmarkService(IHttpClientFactory httpClientFactory, IOptions<AppSettings> options)
-        {
-            _httpClientFactory = httpClientFactory;
-            _options = options.Value;
-        }
+        public required IHttpClientFactory httpClientFactory { get; init; }
+        public required IOptions<AppSettings> options { get; init; }
 
         public async Task DownloadFavicon(DownloadRequest request)
         {
-            var client = _httpClientFactory.CreateClient("HttpClient");
+            var client = httpClientFactory.CreateClient("HttpClient");
             var response = await client.GetAsync(request.Url);
             response.EnsureSuccessStatusCode();
-            File.WriteAllBytes(Path.Combine(_options.Bookmark.FilePaths["Favicon"], request.FileName), await response.Content.ReadAsByteArrayAsync());
+            File.WriteAllBytes(Path.Combine(options.Value.Bookmark.FilePaths["Favicon"], request.FileName), await response.Content.ReadAsByteArrayAsync());
         }
     }
 
     public class DownloadRequest
     {
-        public string Url { get; set; }
-        public string FileName { get; set; }
+        public string Url { get; set; } = "";
+        public string FileName { get; set; } = "";
     }
 }

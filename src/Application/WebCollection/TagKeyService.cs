@@ -15,51 +15,44 @@ namespace Application.WebCollection
         public Task<IList<TagKeyDto>> GetAllAsync();
     }
 
-    internal class TagKeyService : ITagKeyService
+    internal class TagKeyService: ITagKeyService
     {
-        private readonly IDashboardContext _db;
-        private readonly IMapper _mapper;
-        private readonly IWebTagService _webTagService;
-
-        public TagKeyService(IDashboardContext db, IMapper mapper, IWebTagService webTagService)
-        {
-            _mapper = mapper;
-            _db = db;
-            _webTagService = webTagService;
-        }
+        public required IDashboardContext db { get; init; }
+        public required IMapper mapper { get; init; }
+        public required IWebTagService webTagService { get; init; }
 
         public async Task<TagKeyDto?> GetAsync(Int64 id)
         {
-            return await _db.TagKeys.ProjectTo<TagKeyDto>(_mapper.ConfigurationProvider).Where(a => a.Id == id).FirstOrDefaultAsync();
+            return await db.TagKeys.ProjectTo<TagKeyDto>(mapper.ConfigurationProvider).Where(a => a.Id == id).FirstOrDefaultAsync();
         }
 
         public void Create(TagKeyDto input)
         {
-            TagKey inputData = _mapper.Map<TagKey>(input);
-            _db.TagKeys.Add(inputData);
-            if(_db.SaveChanges() == 1)
+            TagKey inputData = mapper.Map<TagKey>(input);
+            db.TagKeys.Add(inputData);
+            if(db.SaveChanges() == 1)
             {
-                _mapper.Map(inputData, input);
+                mapper.Map(inputData, input);
             }
         }
         public void Update(TagKeyDto input)
         {
-            TagKey inputData = _mapper.Map<TagKey>(input);
-            _db.TagKeys.Update(inputData);
-            _db.SaveChanges();
+            TagKey inputData = mapper.Map<TagKey>(input);
+            db.TagKeys.Update(inputData);
+            db.SaveChanges();
         }
         public async Task Delete(long id)
         {
             try
             {
-                _db.TagKeys.Remove(new TagKey() { Id = id });
-                _db.SaveChanges();
+                db.TagKeys.Remove(new TagKey() { Id = id });
+                db.SaveChanges();
 
-                string[] itemIds = _db.WebTags.Where(w => w.Tags != null && w.Tags.Any(a => a == id)).Select(s => s.Id).ToArray();
+                string[] itemIds = db.WebTags.Where(w => w.Tags != null && w.Tags.Any(a => a == id)).Select(s => s.Id).ToArray();
 
                 if(itemIds.Length > 0)
                 {
-                    await _webTagService.Delete(itemIds);
+                    await webTagService.Delete(itemIds);
                 }
             }
             catch (DbUpdateConcurrencyException)
@@ -69,7 +62,16 @@ namespace Application.WebCollection
         }
         public async Task<IList<TagKeyDto>> GetAllAsync()
         {
-            return await _db.TagKeys.ProjectTo<TagKeyDto>(_mapper.ConfigurationProvider).ToListAsync();
+            return await db.TagKeys.ProjectTo<TagKeyDto>(mapper.ConfigurationProvider).ToListAsync();
         }
+    }
+
+    public class TagKeyDto
+    {
+        public long Id { get; set; }
+
+        public string? Title { get; set; }
+
+        public long? ParentId { get; set; }
     }
 }
